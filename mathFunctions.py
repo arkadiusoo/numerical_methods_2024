@@ -1,3 +1,5 @@
+import math
+
 def schematHornera (wspolczynniki, x):
 
     wynik = 0
@@ -5,6 +7,26 @@ def schematHornera (wspolczynniki, x):
     for i in range(len(wspolczynniki)):
         wynik = wynik * x + wspolczynniki[i]
     return wynik
+
+def potegowanie (x,potega):
+    wynik = 1
+    for i in range(potega):
+        wynik *=x
+    return wynik
+
+
+def rozwiazWykladnicze(podstawa, x, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY):
+    return potegowanie(podstawa,wspolczynnikPrzyX * x+ wspolczynnikDoX) + wspolczynnikDoY
+
+def rozwiazTrygonometryczne(funTryg, x, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY, wspolczynnikPrzyY):
+    if funTryg == "sin":
+        return wspolczynnikPrzyY  * math.sin(wspolczynnikPrzyX * x + wspolczynnikDoX) + wspolczynnikDoY
+    elif funTryg == "cos":
+        return wspolczynnikPrzyY * math.cos(wspolczynnikPrzyX * x + wspolczynnikDoX) + wspolczynnikDoY
+    elif funTryg == "tan":
+        return wspolczynnikPrzyY * math.tan(wspolczynnikPrzyX * x + wspolczynnikDoX) + wspolczynnikDoY
+    else:
+        return 0
 
 
 def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
