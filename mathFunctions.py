@@ -6,7 +6,7 @@ collection = {
     "2" : ["x^3 - 2x - 2", [1,0,-2,-2]], #wielomian wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny
 
 }
-
+print(pow(2,0))
 def potegowanie (x,potega):
     wynik = 1
     for i in range(potega):
@@ -18,11 +18,16 @@ def rozwiazWielomioan (wspolczynniki, x):
     for i in range(len(wspolczynniki)):
         wynik = wynik * x + wspolczynniki[i]
     return wynik
-print(rozwiazWielomioan(collection["2"][1],4.7))
+# print(rozwiazWielomioan(collection["2"][1],4.7))
 def rozwiazWykladnicze(wspolczynniki, x):
     #wspolczynniki = [podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY]
-    return pow(wspolczynniki[0],((wspolczynniki[1] * x +  wspolczynniki[2]) ))+ wspolczynniki[3]
-print(rozwiazWykladnicze(collection["1"][1],6.5))
+    # potega = (wspolczynniki[1] * x) + wspolczynniki[2]
+    # wynik = pow(wspolczynniki[0],potega)
+    # print(wynik)
+    # wynik += wspolczynniki[3]
+    # print(wynik)
+    return (pow(wspolczynniki[0],(wspolczynniki[1] * x) + wspolczynniki[2])+ wspolczynniki[3])
+# print(rozwiazWykladnicze(collection["1"][1],6.5))
 def rozwiazTrygonometryczne(wspolczynniki, x ):
     #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
     if wspolczynniki[0] == "sin":
@@ -33,8 +38,43 @@ def rozwiazTrygonometryczne(wspolczynniki, x ):
         return wspolczynniki[1] * math.sin(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     else:
         return 5
-print(rozwiazTrygonometryczne(collection["0"][1],2))
-def rozwiazRownanie(iloscZlozen, kolejnoscFunkcji,x):
+# print(rozwiazTrygonometryczne(collection["0"][1],2))
+
+def rozwiazRowanianie(kolejnoscFunkcji,x):
+    kolejnoscFunkcji = list(reversed(kolejnoscFunkcji))
+    wynik = 0
+    for i in range(len(kolejnoscFunkcji)):
+
+        funkcja = collection[kolejnoscFunkcji[i]][1]
+        keyFunkcja = kolejnoscFunkcji[i][0]
+        print("i = " + str(i) + " | keyfunkcji = " + str(keyFunkcja) +  " | funkcja = " + str(funkcja))
+
+        if i != 0:
+            match (keyFunkcja):
+                case '0':  # trygonometrycnza -
+                    wynik = rozwiazTrygonometryczne(funkcja, wynik)
+                case '1':  # wykladniczza -
+                    wynik = rozwiazWykladnicze(funkcja, wynik)
+                case "2":  # wielomian -
+                    wynik = rozwiazWielomioan(funkcja, wynik)
+                case _:
+                    return -9999
+        else:
+            match (keyFunkcja):
+                case '0':  # trygonometrycnza -
+                    wynik = rozwiazTrygonometryczne(funkcja, x)
+                case '1':  # wykladniczza -
+                    wynik = rozwiazWykladnicze(funkcja, x)
+                case "2":  # wielomian -
+                    wynik = rozwiazWielomioan(funkcja, x)
+                case _:
+                    return -9999
+        print(wynik)
+
+    return wynik
+test = rozwiazRowanianie(["0","1","2"],2)
+print(test)
+def rrozwiazRownanie(iloscZlozen, kolejnoscFunkcji,x):
 
     if iloscZlozen == 0:
         funkcja1 = collection[kolejnoscFunkcji[0]][1]
@@ -253,11 +293,7 @@ def rozwiazRownanie(iloscZlozen, kolejnoscFunkcji,x):
 
     return 0
 
-print(rozwiazRownanie(1,["0","0"],4.7))
-print(rozwiazRownanie(2,["0","2","0"],3))
-print(rozwiazRownanie(0,["0"],3))
-print(rozwiazRownanie(0,["2"],rozwiazRownanie(0,["0"],3)))
-print(rozwiazRownanie(3, ["0","2","0"],rozwiazRownanie(0,["2"],rozwiazRownanie(0,["0"],3))))
+
 def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
 
     while (abs(schematHornera(wspolczynniki, (a-b))) > dokladnosc):
