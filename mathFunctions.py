@@ -1,9 +1,9 @@
 import math
 
 collection = {
-    "0" : ["3sin(2x)", ["sin", 3, 2, 0,0]], #[funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
-    "1" : ["(2^3x - 6) + 11", [2,3,-6,11]], #podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
-    "2" : ["x^3 - 2x - 2", [1,0,-2,-2]], #wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny
+    "0" : ["3sin(2x)", ["sin", 3, 2, 0,0]], #trygonometryczna funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,
+    "1" : ["(2^3x - 6) + 11", [2,3,-6,11]], #wykladnicza podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
+    "2" : ["x^3 - 2x - 2", [1,0,-2,-2]], #wielomian wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny
 
 }
 
@@ -35,55 +35,217 @@ def rozwiazTrygonometryczne(wspolczynniki, x ):
         return 5
 print(rozwiazTrygonometryczne(collection["0"][1],2))
 def rozwiazRownanie(iloscZlozen, kolejnoscFunkcji,x):
-    print(collection[kolejnoscFunkcji[0]][1])
-    print(kolejnoscFunkcji[0])
+
     if iloscZlozen == 0:
-        match (kolejnoscFunkcji[0][0]):
-            case '0':
-                return rozwiazTrygonometryczne(collection[kolejnoscFunkcji[0]][1],x)
-            case '1':
-                return rozwiazWykladnicze(collection[kolejnoscFunkcji[0]][1],x)
-            case "2":
-                return rozwiazWielomioan(collection[kolejnoscFunkcji[0]][1],x)
+        funkcja1 = collection[kolejnoscFunkcji[0]][1]
+        keyFunkcja1 = kolejnoscFunkcji[0][0]
+        match (keyFunkcja1):
+            case '0': #trygonometrycnza -
+                return rozwiazTrygonometryczne(funkcja1,x)
+            case '1':#wykladniczza -
+                return rozwiazWykladnicze(funkcja1,x)
+            case "2":#wielomian -
+                return rozwiazWielomioan(funkcja1,x)
             case _:
                 return 9999
     elif iloscZlozen == 1:
-        match (kolejnoscFunkcji[0][0]):
+        funkcja1 = collection[kolejnoscFunkcji[0]][1]
+        funkcja2 = collection[kolejnoscFunkcji[1]][1]
+        keyFunkcja1 = kolejnoscFunkcji[0][0]
+        keyFunkcja2 = kolejnoscFunkcji[1][0]
+        print(funkcja1,funkcja2)
+        match (keyFunkcja1):
             case '0':
-                match (kolejnoscFunkcji[1][0]):
-                    case '0':
-                        return rozwiazTrygonometryczne(collection[kolejnoscFunkcji[0]][1],rozwiazTrygonometryczne(collection[kolejnoscFunkcji[1]][1],x))
-                    case '1':
-                        return rozwiazTrygonometryczne(collection[kolejnoscFunkcji[0]][1],rozwiazWykladnicze(collection[kolejnoscFunkcji[1]][1], x))
-                    case '2':
-                        return rozwiazTrygonometryczne(collection[kolejnoscFunkcji[0]][1],rozwiazWielomioan(collection[kolejnoscFunkcji[1]][1], x))
+                match (keyFunkcja2):
+                    case '0':#trygonometryczna - trygonometryczna -
+                        return rozwiazTrygonometryczne(funkcja1,rozwiazTrygonometryczne(funkcja2,x))
+                    case '1':#trygonometryczna - wykladnicza -
+                        return rozwiazTrygonometryczne(funkcja1,rozwiazWykladnicze(funkcja2, x))
+                    case '2':#trygonometryczna - wielomian -
+                        return rozwiazTrygonometryczne(funkcja1,rozwiazWielomioan(funkcja2, x))
                     case _:
                          return 9999
 
             case '1':
-                match (kolejnoscFunkcji[1][0]):
-                    case '0':
+                match (keyFunkcja2):
+                    case '0':#wykladnicza - trygonometryczna -
                         return rozwiazWykladnicze(collection[kolejnoscFunkcji[0]][1],
                                                        rozwiazTrygonometryczne(collection[kolejnoscFunkcji[0]][1], x))
-                    case '1':
+                    case '1':#wykladnicza - wykladnicza -
                         return rozwiazWykladnicze(collection[kolejnoscFunkcji[0]][1],
                                                        rozwiazWykladnicze(collection[kolejnoscFunkcji[0]][1], x))
-                    case '2':
+                    case '2':#wykladnicza - wielomian -
                         return rozwiazWykladnicze(collection[kolejnoscFunkcji[0]][1],
                                                        rozwiazWielomioan(collection[kolejnoscFunkcji[0]][1], x))
                     case _:
                         return 9999
             case "2":
-                match (kolejnoscFunkcji[1][0]):
-                    case '0':
+                match (keyFunkcja2):
+                    case '0':#wielomian - trygonometryczna -
                         return rozwiazWielomioan(collection[kolejnoscFunkcji[0]][1],
                                                   rozwiazTrygonometryczne(collection[kolejnoscFunkcji[0]][1], x))
-                    case '1':
+                    case '1':#wielomian - wykladnicza -
                         return rozwiazWielomioan(collection[kolejnoscFunkcji[0]][1],
                                                   rozwiazWykladnicze(collection[kolejnoscFunkcji[0]][1], x))
-                    case '2':
+                    case '2':#wielomian - wielomian -
                         return rozwiazWielomioan(collection[kolejnoscFunkcji[0]][1],
                                                   rozwiazWielomioan(collection[kolejnoscFunkcji[0]][1], x))
+                    case _:
+                        return 9999
+            case _:
+                return 9999
+    elif iloscZlozen == 2:
+        funkcja1 = collection[kolejnoscFunkcji[0]][1]
+        funkcja2 = collection[kolejnoscFunkcji[1]][1]
+        funkcja3 = collection[kolejnoscFunkcji[2]][1]
+        keyFunkcja1 = kolejnoscFunkcji[0][0]
+        keyFunkcja2 = kolejnoscFunkcji[1][0]
+        keyFunkcja3 = kolejnoscFunkcji[2][0]
+
+        match (keyFunkcja1):
+            case '0':
+                match (keyFunkcja2):
+                    case '0':
+                        match (keyFunkcja3):
+                            case '0':#trygonometryczna - trygonometryczna - trygonometryczna
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazTrygonometryczne(funkcja2, rozwiazTrygonometryczne(funkcja3, x)))
+                            case '1':#trygonometryczna - trygonometryczna - wykladnicza
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazTrygonometryczne(funkcja2, rozwiazWykladnicze(funkcja3, x)))
+                            case "2":#trygonometryczna - trygonometryczna - wielomian
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazTrygonometryczne(funkcja2, rozwiazWielomioan(funkcja3, x)))
+                            case _:
+                                return 9999
+
+                    case '1':
+                        match (keyFunkcja3):
+                            case '0':#trygonometryczna - wykladnicza - trygonometryczna
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazWykladnicze(funkcja2, rozwiazTrygonometryczne(funkcja3, x)))
+                            case '1':#trygonometryczna - wykladnicza - wykladnicze
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazWykladnicze(funkcja2, rozwiazWykladnicze(funkcja3, x)))
+                            case "2":#trygonometryczna - wykladnicza - wielomian
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazWykladnicze(funkcja2, rozwiazWielomioan(funkcja3, x)))
+                            case _:
+                                return 9999
+
+                    case '2':
+                        match (keyFunkcja3):
+                            case '0':#trygonometryczna - wielomian - trygonometryczna
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazWielomioan(funkcja2, rozwiazTrygonometryczne(funkcja3, x)))
+                            case '1':#trygonometryczna - wielomian - wykladnicze
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazWielomioan(funkcja2, rozwiazWykladnicze(funkcja3, x)))
+                            case "2":#trygonometryczna - wielomian - wielomian
+                                return rozwiazTrygonometryczne(funkcja1, rozwiazWielomioan(funkcja2, rozwiazWielomioan(funkcja3, x)))
+                            case _:
+                                return 9999
+                    case _:
+                        return 9999
+
+            case '1':
+                match (keyFunkcja2):
+                    case '0':
+                        match (keyFunkcja3):
+                            case '0':  # wykladnicza - trygonometryczna - trygonometryczna
+                                return rozwiazWykladnicze(funkcja1, rozwiazTrygonometryczne(funkcja2,
+                                                                                                 rozwiazTrygonometryczne(
+                                                                                                     funkcja3, x)))
+                            case '1':  # wykladnicza - trygonometryczna - wykladnicza
+                                return rozwiazWykladnicze(funkcja1, rozwiazTrygonometryczne(funkcja2,
+                                                                                                 rozwiazWykladnicze(
+                                                                                                     funkcja3, x)))
+                            case "2":  # wykladnicza - trygonometryczna - wielomian
+                                return rozwiazWykladnicze(funkcja1, rozwiazTrygonometryczne(funkcja2,
+                                                                                                 rozwiazWielomioan(
+                                                                                                     funkcja3, x)))
+                            case _:
+                                return 9999
+
+                    case '1':
+                        match (keyFunkcja3):
+                            case '0':  # wykladnicza - wykladnicza - trygonometryczna
+                                return rozwiazWykladnicze(funkcja1, rozwiazWykladnicze(funkcja2,
+                                                                                            rozwiazTrygonometryczne(
+                                                                                                funkcja3, x)))
+                            case '1':  # wykladnicza - wykladnicza - wykladnicze
+                                return rozwiazWykladnicze(funkcja1, rozwiazWykladnicze(funkcja2,
+                                                                                            rozwiazWykladnicze(funkcja3,
+                                                                                                               x)))
+                            case "2":  # wykladnicza - wykladnicza - wielomian
+                                return rozwiazWykladnicze(funkcja1, rozwiazWykladnicze(funkcja2,
+                                                                                            rozwiazWielomioan(funkcja3,
+                                                                                                              x)))
+                            case _:
+                                return 9999
+
+                    case '2':
+                        match (keyFunkcja3):
+                            case '0':  # wykladnicza - wielomian - trygonometryczna
+                                return rozwiazWykladnicze(funkcja1, rozwiazWielomioan(funkcja2,
+                                                                                           rozwiazTrygonometryczne(
+                                                                                               funkcja3, x)))
+                            case '1':  # wykladnicza - wielomian - wykladnicze
+                                return rozwiazWykladnicze(funkcja1, rozwiazWielomioan(funkcja2,
+                                                                                           rozwiazWykladnicze(funkcja3,
+                                                                                                              x)))
+                            case "2":  # wykladnicza - wielomian - wielomian
+                                return rozwiazWykladnicze(funkcja1, rozwiazWielomioan(funkcja2,
+                                                                                           rozwiazWielomioan(funkcja3,
+                                                                                                             x)))
+                            case _:
+                                return 9999
+                    case _:
+                        return 9999
+            case "2":
+                match (keyFunkcja2):
+                    case '0':
+                        match (keyFunkcja3):
+                            case '0':  # wielomian - trygonometryczna - trygonometryczna
+                                return rozwiazWielomioan(funkcja1, rozwiazTrygonometryczne(funkcja2,
+                                                                                            rozwiazTrygonometryczne(
+                                                                                                funkcja3, x)))
+                            case '1':  # wielomian - trygonometryczna - wykladnicza
+                                return rozwiazWielomioan(funkcja1, rozwiazTrygonometryczne(funkcja2,
+                                                                                            rozwiazWykladnicze(
+                                                                                                funkcja3, x)))
+                            case "2":  # wielomian - trygonometryczna - wielomian
+                                return rozwiazWielomioan(funkcja1, rozwiazTrygonometryczne(funkcja2,
+                                                                                            rozwiazWielomioan(
+                                                                                                funkcja3, x)))
+                            case _:
+                                return 9999
+
+                    case '1':
+                        match (keyFunkcja3):
+                            case '0':  # wielomian - wykladnicza - trygonometryczna
+                                return rozwiazWielomioan(funkcja1, rozwiazWykladnicze(funkcja2,
+                                                                                       rozwiazTrygonometryczne(
+                                                                                           funkcja3, x)))
+                            case '1':  # wielomian - wykladnicza - wykladnicze
+                                return rozwiazWielomioan(funkcja1, rozwiazWykladnicze(funkcja2,
+                                                                                       rozwiazWykladnicze(funkcja3,
+                                                                                                          x)))
+                            case "2":  # wielomian - wykladnicza - wielomian
+                                return rozwiazWielomioan(funkcja1, rozwiazWykladnicze(funkcja2,
+                                                                                       rozwiazWielomioan(funkcja3,
+                                                                                                         x)))
+                            case _:
+                                return 9999
+
+                    case '2':
+                        match (keyFunkcja3):
+                            case '0':  # wielomian - wielomian - trygonometryczna
+                                return rozwiazWielomioan(funkcja1, rozwiazWielomioan(funkcja2,
+                                                                                      rozwiazTrygonometryczne(
+                                                                                          funkcja3, x)))
+                            case '1':  # wielomian - wielomian - wykladnicze
+                                return rozwiazWielomioan(funkcja1, rozwiazWielomioan(funkcja2,
+                                                                                      rozwiazWykladnicze(funkcja3,
+                                                                                                         x)))
+                            case "2":  # wielomian - wielomian - wielomian
+                                return rozwiazWielomioan(funkcja1, rozwiazWielomioan(funkcja2,
+                                                                                      rozwiazWielomioan(funkcja3,
+                                                                                                        x)))
+                            case _:
+                                return 9999
                     case _:
                         return 9999
             case _:
@@ -92,6 +254,10 @@ def rozwiazRownanie(iloscZlozen, kolejnoscFunkcji,x):
     return 0
 
 print(rozwiazRownanie(1,["0","0"],4.7))
+print(rozwiazRownanie(2,["0","2","0"],3))
+print(rozwiazRownanie(0,["0"],3))
+print(rozwiazRownanie(0,["2"],rozwiazRownanie(0,["0"],3)))
+print(rozwiazRownanie(3, ["0","2","0"],rozwiazRownanie(0,["2"],rozwiazRownanie(0,["0"],3))))
 def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
 
     while (abs(schematHornera(wspolczynniki, (a-b))) > dokladnosc):
