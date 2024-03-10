@@ -1,8 +1,7 @@
 import math
-from decimal import Decimal
 collection = {
     "0" : ["3sin(2x)", ["sin", 3, 2, 0,0]], #trygonometryczna funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,
-    "1" : ["(2^3x - 6) + 11", [2,3,-6,11]], #wykladnicza podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
+    "1" : ["(2^0.5x - 6) + 11", [2,3,-6,-11]], #wykladnicza podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
     "2" : ["x^3 - 2x - 2", [1,0,-2,-2]], #wielomian wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny
 
 }
@@ -18,35 +17,25 @@ def rozwiazWielomioan (wspolczynniki, x):
     for i in range(len(wspolczynniki)):
         wynik = wynik * x + wspolczynniki[i]
     return wynik
-# print(rozwiazWielomioan(collection["2"][1],4.7))
 def rozwiazWykladnicze(wspolczynniki, x):
     #wspolczynniki = [podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY]
-    # potega = (wspolczynniki[1] * x) + wspolczynniki[2]
-    # wynik = pow(wspolczynniki[0],potega)
-    # print(wynik)
-    # wynik += wspolczynniki[3]
-    # print(wynik)
     return (pow(wspolczynniki[0],(wspolczynniki[1] * x) + wspolczynniki[2])+ wspolczynniki[3])
-# print(rozwiazWykladnicze(collection["1"][1],6.5))
 def rozwiazTrygonometryczne(wspolczynniki, x ):
     #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
+
     if wspolczynniki[0] == "sin":
-        a = wspolczynniki[2] * x + wspolczynniki[3]
-        print(x)
-        return wspolczynniki[1]  * math.sin(a) + wspolczynniki[4]
+        return wspolczynniki[1]  * math.sin(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     elif wspolczynniki[0] == "cos":
         return wspolczynniki[1] * math.sin(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     elif wspolczynniki[0] == "tan":
         return wspolczynniki[1] * math.sin(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     else:
         return 5
-# print(rozwiazTrygonometryczne(collection["0"][1],2))
 
 def rozwiazRowanianie(kolejnoscFunkcji,x):
     kolejnoscFunkcji = list(reversed(kolejnoscFunkcji))
     wynik = 0
     for i in range(len(kolejnoscFunkcji)):
-
         funkcja = collection[kolejnoscFunkcji[i]][1]
         keyFunkcja = kolejnoscFunkcji[i][0]
 
@@ -72,14 +61,12 @@ def rozwiazRowanianie(kolejnoscFunkcji,x):
                     return -9999
 
     return wynik
-# test = rozwiazRowanianie(["0","1","2"],2)
-# print(test)
-
 
 def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
+    srodek = (a + b) / 2
+    while abs(rozwiazRowanianie(wspolczynniki, (a + b) / 2)) > dokladnosc:
 
-    while (abs(rozwiazRowanianie(wspolczynniki, (a-b))) > dokladnosc):
-        srodek = (a + b) / 2
+
 
         wartoscA = rozwiazRowanianie(wspolczynniki, a)
         wartoscB = rozwiazRowanianie(wspolczynniki, b)
@@ -91,10 +78,13 @@ def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
             b = srodek
         elif (wartoscB > 0 and wartoscSrodka < 0) or (wartoscB < 0 and wartoscSrodka > 0):
             a = srodek
+        srodek = (a + b) / 2
+    return srodek
 
 
 def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
     licznik = 1
+
     while (licznik < iloscIteracji):
         srodek = (a + b) / 2
 
@@ -109,9 +99,36 @@ def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
         elif (wartoscB > 0 and wartoscSrodka < 0) or (wartoscB < 0 and wartoscSrodka > 0):
             a = srodek
         licznik += 1
+    return [srodek, licznik]
 
+# testTrygo = rozwiazTrygonometryczne(collection["0"][1],0)
+#
+# testRozwRow1=rozwiazRowanianie(["0"],0)
+#
+# testBisekcjaIt = metodaBisekcjiIloscIteracji(["0"],-100,100,1000)
+# print("czysta trygo = {} | rozwiazRow = {} | bisekcjaIteracje = {}".format(testTrygo,testRozwRow1, testBisekcjaIt))
+#
+# testWyk = rozwiazWykladnicze(collection["1"][1], 3.153143872879099)
+# testRozwRow2 = rozwiazRowanianie(["1"],3.153143872879099)
+# testBisekcjaIt2 = metodaBisekcjiIloscIteracji(["1"],-100,100,1000)
+# print("czysta wyk = {} | rozwiazRow = {} | bisekcjaIteracje = {}".format(testWyk,testRozwRow2,testBisekcjaIt2))
+#
+# testWielo = rozwiazWielomioan(collection["2"][1], 1.7692923542386314)
+# testRozwRow3 = rozwiazRowanianie(["2"],1.7692923542386314)
+# testBisekcjaIt3 = metodaBisekcjiIloscIteracji(["2"],-100,100,1000)
+# print("czysta wielo = {} | rozwiazRow = {} | bisekcjaIteracje = ".format(testWielo,testRozwRow3),testBisekcjaIt3)
 
-a = metodaBisekcjiIloscIteracji(["0","1","2"],0,100,100)
-print(a)
+# miejsceZeroweRowanania3 = metodaBisekcjiIloscIteracji(["2"],-100,100,1000)[0]
+# print(miejsceZeroweRowanania3)
 
-trygTest = rozwiazTrygonometryczne("0",100)
+# wielkiTest2 = metodaBisekcjiIloscIteracji(["0","1","2"],-100.0,100.0,1000)
+# print(wielkiTest2)
+z1 = rozwiazWielomioan(collection["2"][1],0.0)
+z2 = rozwiazWykladnicze(collection["1"][1],z1)
+z3 = rozwiazTrygonometryczne(collection["0"][1],z2)
+print("z3 = {}".format(z3))
+wielkiTest3 = metodaBisekcjiDokladnosc(["0","1","2"],-1.0,2.0,0.0001)
+print("wielkiTest3 = {}".format(wielkiTest3))
+# test = rozwiazWielomioan(collection["2"][1],100.0)
+# print(test)
+#1.681854248046875
