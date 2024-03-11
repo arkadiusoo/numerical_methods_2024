@@ -26,9 +26,9 @@ def rozwiazTrygonometryczne(wspolczynniki, x ):
     if wspolczynniki[0] == "sin":
         return wspolczynniki[1]  * math.sin(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     elif wspolczynniki[0] == "cos":
-        return wspolczynniki[1] * math.sin(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
+        return wspolczynniki[1] * math.cos(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     elif wspolczynniki[0] == "tan":
-        return wspolczynniki[1] * math.sin(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
+        return wspolczynniki[1] * math.tan(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     else:
         return 5
 
@@ -64,6 +64,7 @@ def rozwiazRowanianie(kolejnoscFunkcji,x):
 
 def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
     srodek = (a + b) / 2
+    wartoscSrodka = 0
     while abs(rozwiazRowanianie(wspolczynniki, (a + b) / 2)) > dokladnosc:
 
 
@@ -79,11 +80,12 @@ def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
         elif (wartoscB > 0 and wartoscSrodka < 0) or (wartoscB < 0 and wartoscSrodka > 0):
             a = srodek
         srodek = (a + b) / 2
-    return srodek
+    return [srodek,wartoscSrodka]
 
 def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
     licznik = 0
     srodek = (a + b) / 2
+
     while (licznik < iloscIteracji):
         licznik += 1
 
@@ -100,3 +102,5 @@ def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
         srodek = (a + b) / 2
     return [srodek, licznik]
 
+test = metodaBisekcjiDokladnosc(["0","0"],0.1,1,0.0001)
+print(test)
