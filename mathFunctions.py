@@ -81,12 +81,11 @@ def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
         srodek = (a + b) / 2
     return srodek
 
-
 def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
-    licznik = 1
-
+    licznik = 0
+    srodek = (a + b) / 2
     while (licznik < iloscIteracji):
-        srodek = (a + b) / 2
+        licznik += 1
 
         wartoscA = rozwiazRowanianie(wspolczynniki, a)
         wartoscB = rozwiazRowanianie(wspolczynniki, b)
@@ -98,37 +97,6 @@ def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
             b = srodek
         elif (wartoscB > 0 and wartoscSrodka < 0) or (wartoscB < 0 and wartoscSrodka > 0):
             a = srodek
-        licznik += 1
+        srodek = (a + b) / 2
     return [srodek, licznik]
 
-# testTrygo = rozwiazTrygonometryczne(collection["0"][1],0)
-#
-# testRozwRow1=rozwiazRowanianie(["0"],0)
-#
-# testBisekcjaIt = metodaBisekcjiIloscIteracji(["0"],-100,100,1000)
-# print("czysta trygo = {} | rozwiazRow = {} | bisekcjaIteracje = {}".format(testTrygo,testRozwRow1, testBisekcjaIt))
-#
-# testWyk = rozwiazWykladnicze(collection["1"][1], 3.153143872879099)
-# testRozwRow2 = rozwiazRowanianie(["1"],3.153143872879099)
-# testBisekcjaIt2 = metodaBisekcjiIloscIteracji(["1"],-100,100,1000)
-# print("czysta wyk = {} | rozwiazRow = {} | bisekcjaIteracje = {}".format(testWyk,testRozwRow2,testBisekcjaIt2))
-#
-# testWielo = rozwiazWielomioan(collection["2"][1], 1.7692923542386314)
-# testRozwRow3 = rozwiazRowanianie(["2"],1.7692923542386314)
-# testBisekcjaIt3 = metodaBisekcjiIloscIteracji(["2"],-100,100,1000)
-# print("czysta wielo = {} | rozwiazRow = {} | bisekcjaIteracje = ".format(testWielo,testRozwRow3),testBisekcjaIt3)
-
-# miejsceZeroweRowanania3 = metodaBisekcjiIloscIteracji(["2"],-100,100,1000)[0]
-# print(miejsceZeroweRowanania3)
-
-# wielkiTest2 = metodaBisekcjiIloscIteracji(["0","1","2"],-100.0,100.0,1000)
-# print(wielkiTest2)
-z1 = rozwiazWielomioan(collection["2"][1],0.0)
-z2 = rozwiazWykladnicze(collection["1"][1],z1)
-z3 = rozwiazTrygonometryczne(collection["0"][1],z2)
-print("z3 = {}".format(z3))
-wielkiTest3 = metodaBisekcjiDokladnosc(["0","1","2"],-1.0,2.0,0.0001)
-print("wielkiTest3 = {}".format(wielkiTest3))
-# test = rozwiazWielomioan(collection["2"][1],100.0)
-# print(test)
-#1.681854248046875
