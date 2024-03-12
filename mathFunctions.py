@@ -1,10 +1,11 @@
 import math
 collection = {
-    "0" : ["3sin(2x)", ["sin", 3, 2, 0,0]], #trygonometryczna funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,
-    "1" : ["(2^0.5x - 6) + 11", [2,3,-6,-11]], #wykladnicza podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
+    "0" : ["sin(x)", ["sin", 1, 1, 0,0]], #trygonometryczna funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,
+    "1" : ["2^(0.5x - 6) + 11", [1,2,0.5,-6,+11]], #wykladnicza wspolczynnik przy podstawie, podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
     "2" : ["x^3 - 2x - 2", [1,0,-2,-2]], #wielomian wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny
 
 }
+
 
 def potegowanie (x,potega):
     wynik = 1
@@ -19,7 +20,10 @@ def rozwiazWielomioan (wspolczynniki, x):
     return wynik
 def rozwiazWykladnicze(wspolczynniki, x):
     #wspolczynniki = [podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY]
-    return (pow(wspolczynniki[0],(wspolczynniki[1] * x) + wspolczynniki[2])+ wspolczynniki[3])
+    if wspolczynniki[2] == "x":
+        wspolczynniki[2] = x
+        x = 1
+    return wspolczynniki[0]*(pow(wspolczynniki[1],(wspolczynniki[2] * x) + wspolczynniki[3])+ wspolczynniki[4])
 def rozwiazTrygonometryczne(wspolczynniki, x ):
     #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
 
@@ -30,7 +34,7 @@ def rozwiazTrygonometryczne(wspolczynniki, x ):
     elif wspolczynniki[0] == "tan":
         return wspolczynniki[1] * math.tan(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     else:
-        return 5
+        return -9999
 
 def rozwiazRowanianie(kolejnoscFunkcji,x):
     kolejnoscFunkcji = list(reversed(kolejnoscFunkcji))
@@ -102,5 +106,37 @@ def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
         srodek = (a + b) / 2
     return [srodek, licznik]
 
-test = metodaBisekcjiDokladnosc(["0","0"],0.1,1,0.0001)
-print(test)
+def pochodnaWielomian(wspolczynniki):
+    stopien = len(wspolczynniki) - 1
+    noweWspolczynniki = []
+    for i in range(stopien):
+        noweWspolczynniki.append(wspolczynniki[i]*stopien)
+        stopien -= 1
+    return noweWspolczynniki
+
+def pochodnaTrygonometrycznej(wspolczynniki):
+    #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
+
+    if wspolczynniki[0] == "sin":
+        wspolczynniki[0] = "cos"
+        return wspolczynniki
+    elif wspolczynniki[0] == "cos":
+        wspolczynniki[0] = "sin"
+        wspolczynniki[1] = wspolczynniki[1] * (-1)
+        return wspolczynniki
+    elif wspolczynniki[0] == "tan":
+        wspolczynniki[0] = "sin/cos"
+        return wspolczynniki
+    else:
+        return -9999
+
+def pochodnaWykladniczej(wspolczynniki):
+    noweWspolczynniki = []
+    noweWspolczynniki.append(math.log(wspolczynniki[1]))
+    noweWspolczynniki.append(wspolczynniki[1])
+    noweWspolczynniki.append("x")
+    noweWspolczynniki.append(wspolczynniki[3])
+    noweWspolczynniki.append(0)
+    return noweWspolczynniki
+
+
