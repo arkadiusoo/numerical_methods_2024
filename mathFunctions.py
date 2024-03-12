@@ -185,11 +185,11 @@ def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
         print(text)
     return wartosc
 
-funkcje = bazaFunkcji
-
-pochodne = pochodnaZlozen(funkcje[2])
-print("funkcje: {}\npochodne: {}".format(funkcje,pochodne))
-test = obliczWartoscPochodnychZlozen(funkcje,pochodne,2)
-testb = rozwiazRowanianie(pochodne,1)
-print(testb)
+# funkcje = bazaFunkcji
+#
+# pochodne = pochodnaZlozen(funkcje[2])
+# print("funkcje: {}\npochodne: {}".format(funkcje,pochodne))
+# test = obliczWartoscPochodnychZlozen(funkcje,pochodne,2)
+# testb = rozwiazRowanianie(pochodne,1)
+# print(testb)
 # print(rozwiazRowanianie(pochodne,2.004))
