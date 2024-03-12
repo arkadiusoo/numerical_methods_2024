@@ -1,9 +1,8 @@
 import math
-import random
 
 bazaFunkcji = [
     ['tryg',"sin", 1, 1, 0,0,], # sin(x)
-    ['wyk',1,2,1,1,+11], # 2^(x+1) + 11
+    ['wyk',1,2,1,1,11], # 2^(x+1) + 11
     ['wielo',1,0,-2,-2] # x^3 - 2x - 2
 ]
 
@@ -20,7 +19,6 @@ def rozwiazWykladnicze(wspolczynniki, x):
     if wspolczynniki[2] == "x":
         wspolczynniki[2] = x
         nowyX = 1
-
     return wspolczynniki[0]*(pow(wspolczynniki[1],(wspolczynniki[2] * nowyX) + wspolczynniki[3])+ wspolczynniki[4])
 def rozwiazTrygonometryczne(wspolczynniki, x ):
     #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
@@ -32,8 +30,7 @@ def rozwiazTrygonometryczne(wspolczynniki, x ):
     elif wspolczynniki[0] == "tan":
         return wspolczynniki[1] * math.tan(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     else:
-        return -9999
-
+        raise Exception("Nieznana funkcja trygonometryczna")
 def rozwiazRowanianie(kolejnoscFunkcji,x):
     if len(kolejnoscFunkcji) != 1:
         kolejnoscFunkcji = list(reversed(kolejnoscFunkcji))
@@ -51,7 +48,7 @@ def rozwiazRowanianie(kolejnoscFunkcji,x):
                 case "wielo":  # wielomian -
                     wynik = rozwiazWielomioan(funkcja, wynik)
                 case _:
-                    return -9999
+                    raise Exception("Nieznana funkcja")
         else:
             match (keyFunkcja):
                 case "tryg":  # trygonometrycnza -
@@ -61,8 +58,7 @@ def rozwiazRowanianie(kolejnoscFunkcji,x):
                 case "wielo":  # wielomian -
                     wynik = rozwiazWielomioan(funkcja, x)
                 case _:
-                    return -9999
-
+                    raise Exception("Nieznana funkcja")
     return wynik
 def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
     srodek = (a + b) / 2
@@ -76,7 +72,7 @@ def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
         wartoscSrodka = rozwiazRowanianie(wspolczynniki, srodek)
 
         if wartoscSrodka == 0:
-            return srodek
+            return [srodek,wartoscSrodka]
         elif (wartoscA > 0 and wartoscSrodka < 0) or (wartoscA < 0 and wartoscSrodka > 0):
             b = srodek
         elif (wartoscB > 0 and wartoscSrodka < 0) or (wartoscB < 0 and wartoscSrodka > 0):
@@ -87,6 +83,7 @@ def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
 def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
     licznik = 0
     srodek = (a + b) / 2
+    wartoscSrodka = 0
 
     while (licznik < iloscIteracji):
         licznik += 1
@@ -96,13 +93,13 @@ def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
         wartoscSrodka = rozwiazRowanianie(wspolczynniki, srodek)
 
         if wartoscSrodka == 0:
-            return [srodek, licznik]
+            return [srodek,wartoscSrodka, licznik]
         elif (wartoscA > 0 and wartoscSrodka < 0) or (wartoscA < 0 and wartoscSrodka > 0):
             b = srodek
         elif (wartoscB > 0 and wartoscSrodka < 0) or (wartoscB < 0 and wartoscSrodka > 0):
             a = srodek
         srodek = (a + b) / 2
-    return [srodek, licznik]
+    return [srodek, wartoscSrodka, licznik]
 
 def pochodnaWielomian(wspolczynniki):
     stopien = len(wspolczynniki) - 1
@@ -126,7 +123,8 @@ def pochodnaTrygonometrycznej(wspolczynniki):
         noweWspolczynniki[0] = "sin/cos"
         return noweWspolczynniki
     else:
-        return -9999
+         raise Exception("Nieznana funkcja trygonometryczna")
+
 
 def pochodnaWykladniczej(wspolczynniki):
     noweWspolczynniki = []
@@ -137,13 +135,10 @@ def pochodnaWykladniczej(wspolczynniki):
     noweWspolczynniki.append(0)
     return noweWspolczynniki
 
-def getRandom():
-    output = str(math.floor(random.random()*1000))
-    return output
 def pochodnaZlozen(kolejnoscFunkcji):
-    pochodneFunkcji = []
     kolejnoscPochodnych = []
     for i in range(len(kolejnoscFunkcji)):
+
         funkcja = kolejnoscFunkcji[i][1:]
         keyFunkcja = kolejnoscFunkcji[i][0]
         match (keyFunkcja):
@@ -160,36 +155,30 @@ def pochodnaZlozen(kolejnoscFunkcji):
                 pochodna.insert(0,"wielo")
                 kolejnoscPochodnych.append(pochodna)
             case _:
-                return -9999
+                raise Exception("Nieznana funkcja")
     return kolejnoscPochodnych
-# test = pochodnaZlozen(['0','1','2'])
-# a = [1,2,3]
-# print(a[1:])
-# fun = ['d','g','f']
-# poch = ['dp','gp','fp']
-#
-# for i in range(len(poch)):
-#     print(poch[i])
-#     print(fun[i+1:])
+
 
 def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
     wartosc = 1
-    print(kolejnoscFunkcji)
+    print("****start funkcji - kolejnosc funkcji = {}\n\t\t\t\t\tkolejnosc pochodnych = {}".format(kolejnoscFunkcji,kolejnoscPochodnych))
     for i in range(len(kolejnoscPochodnych)):
         pochodna = [kolejnoscPochodnych[i]]
         funkcje = kolejnoscFunkcji[i+1:]
-        wartoscFunkcjiZlozonych = rozwiazRowanianie(funkcje,x)
+        if funkcje == []:
+            wartoscFunkcjiZlozonych = x
+        else:
+            wartoscFunkcjiZlozonych = rozwiazRowanianie(funkcje,x)
         wartoscPochodnej = rozwiazRowanianie(pochodna,wartoscFunkcjiZlozonych)
         wartosc *= wartoscPochodnej
         text = "\t\ti = {}\npochodna = {} \t| wartosc pochodnej = {}\nfunkcje = {}\t| wartoscfucnkjiZlozonych = {}".format(i,pochodna,wartoscPochodnej,funkcje,wartoscFunkcjiZlozonych)
         print(text)
     return wartosc
 
-# funkcje = bazaFunkcji
-#
-# pochodne = pochodnaZlozen(funkcje[2])
-# print("funkcje: {}\npochodne: {}".format(funkcje,pochodne))
-# test = obliczWartoscPochodnychZlozen(funkcje,pochodne,2)
-# testb = rozwiazRowanianie(pochodne,1)
-# print(testb)
-# print(rozwiazRowanianie(pochodne,2.004))
+#TODO: 0. dodac sin/cos w rozwiazywaniu trygonometrycznych
+#TODO: 1. metoda siecznych
+    #TODO: 1.1. metoda siecznych iteracyjnie
+    #TODO: 1.2. metoda siecznych dokladnosc
+#TODO: 2. interfejs uzytkownika
+#TODO: 3. wykresiki
+#TODO: 4. sprawko
