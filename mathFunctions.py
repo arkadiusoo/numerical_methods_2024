@@ -1,18 +1,13 @@
 import math
 import random
-collection = {
-    "0" : ["sin(x)", ["sin", 1, 1, 0,0]], #trygonometryczna funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,
-    "1" : ["2^(x+1) + 11", [1,2,1,1,+11]], #wykladnicza wspolczynnik przy podstawie, podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
-    "2" : ["x^3 - 2x - 2", [1,0,-2,-2]], #wielomian wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny
 
-}
+bazaFunkcji = [
+    ['tryg',"sin", 1, 1, 0,0,], # sin(x)
+    ['wyk',1,2,1,1,+11], # 2^(x+1) + 11
+    ['weilo',1,0,-2,-2] # x^3 - 2x - 2
+]
 
 
-def potegowanie (x,potega):
-    wynik = 1
-    for i in range(potega):
-        wynik *=x
-    return wynik
 def rozwiazWielomioan (wspolczynniki, x):
     #wspolczynniki = [wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny]
     wynik = 0
@@ -40,35 +35,35 @@ def rozwiazTrygonometryczne(wspolczynniki, x ):
         return -9999
 
 def rozwiazRowanianie(kolejnoscFunkcji,x):
-    kolejnoscFunkcji = list(reversed(kolejnoscFunkcji))
+    if len(kolejnoscFunkcji) != 1:
+        kolejnoscFunkcji = list(reversed(kolejnoscFunkcji))
     wynik = 0
     for i in range(len(kolejnoscFunkcji)):
-        funkcja = collection[kolejnoscFunkcji[i]][1]
+        funkcja = kolejnoscFunkcji[i][1:]
         keyFunkcja = kolejnoscFunkcji[i][0]
 
         if i != 0:
             match (keyFunkcja):
-                case '0':  # trygonometrycnza -
+                case "tryg":  # trygonometrycnza -
                     wynik = rozwiazTrygonometryczne(funkcja, wynik)
-                case '1':  # wykladniczza -
+                case "wyk":  # wykladniczza -
                     wynik = rozwiazWykladnicze(funkcja, wynik)
-                case "2":  # wielomian -
+                case "wielo":  # wielomian -
                     wynik = rozwiazWielomioan(funkcja, wynik)
                 case _:
                     return -9999
         else:
             match (keyFunkcja):
-                case '0':  # trygonometrycnza -
+                case "tryg":  # trygonometrycnza -
                     wynik = rozwiazTrygonometryczne(funkcja, x)
-                case '1':  # wykladniczza -
+                case "wyk":  # wykladniczza -
                     wynik = rozwiazWykladnicze(funkcja, x)
-                case "2":  # wielomian -
+                case "wielo":  # wielomian -
                     wynik = rozwiazWielomioan(funkcja, x)
                 case _:
                     return -9999
 
     return wynik
-
 def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
     srodek = (a + b) / 2
     wartoscSrodka = 0
@@ -149,24 +144,23 @@ def pochodnaZlozen(kolejnoscFunkcji):
     pochodneFunkcji = []
     kolejnoscPochodnych = []
     for i in range(len(kolejnoscFunkcji)):
-        funkcja = collection[kolejnoscFunkcji[i]][1]
+        funkcja = kolejnoscFunkcji[i][1:]
         keyFunkcja = kolejnoscFunkcji[i][0]
         match (keyFunkcja):
-            case '0':  # trygonometrycnza -
-                key = '0' + getRandom()
-                kolejnoscPochodnych.append(key)
-                collection[key] = [0,pochodnaTrygonometrycznej(funkcja)]
-            case '1':  # wykladniczza -
-                key = '1' + getRandom()
-                kolejnoscPochodnych.append(key)
-                collection[key] = [0,pochodnaWykladniczej(funkcja)]
-            case "2":  # wielomian -
-                key = '2' + getRandom()
-                kolejnoscPochodnych.append(key)
-                collection[key] = [0,pochodnaWielomian(funkcja)]
+            case "tryg":  # trygonometrycnza -
+                pochodna = pochodnaTrygonometrycznej(funkcja)
+                pochodna.insert(0,"tryg")
+                kolejnoscPochodnych.append(pochodna)
+            case "wyk":  # wykladniczza -
+                pochodna = pochodnaWykladniczej(funkcja)
+                pochodna.insert(0,"wyk")
+                kolejnoscPochodnych.append(pochodna)
+            case "wielo":  # wielomian -
+                pochodna = pochodnaWielomian(funkcja)
+                pochodna.insert(0,"wielo")
+                kolejnoscPochodnych.append(pochodna)
             case _:
                 return -9999
-    print(kolejnoscPochodnych)
     return kolejnoscPochodnych
 # test = pochodnaZlozen(['0','1','2'])
 # a = [1,2,3]
@@ -181,12 +175,14 @@ def pochodnaZlozen(kolejnoscFunkcji):
 def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
     wartosc = 1
     for i in range(len(kolejnoscPochodnych)):
-        pochodna = kolejnoscPochodnych[i]
+        pochodna = [kolejnoscPochodnych[i]]
         funkcje = kolejnoscFunkcji[i+1:]
         wartoscFunkcjiZlozonych = rozwiazRowanianie(funkcje,x)
         wartoscPochodnej = rozwiazRowanianie(pochodna,wartoscFunkcjiZlozonych)
         wartosc *= wartoscPochodnej
-    print(wartosc)
+    return wartosc
 
-
-
+funkcje = bazaFunkcji[0:2]
+pochodne = pochodnaZlozen(funkcje)
+test = obliczWartoscPochodnychZlozen(funkcje,pochodne,2)
+print(test)
