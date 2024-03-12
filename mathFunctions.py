@@ -1,7 +1,8 @@
 import math
+import random
 collection = {
     "0" : ["sin(x)", ["sin", 1, 1, 0,0]], #trygonometryczna funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,
-    "1" : ["2^(0.5x - 6) + 11", [1,2,0.5,-6,+11]], #wykladnicza wspolczynnik przy podstawie, podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
+    "1" : ["2^(x+1) + 11", [1,2,1,1,+11]], #wykladnicza wspolczynnik przy podstawie, podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY
     "2" : ["x^3 - 2x - 2", [1,0,-2,-2]], #wielomian wspolczynnikPrzyX^3, wspolczynnikPrzyX^2, wspolczynnikPrzyX^1, wyrazWolny
 
 }
@@ -20,10 +21,12 @@ def rozwiazWielomioan (wspolczynniki, x):
     return wynik
 def rozwiazWykladnicze(wspolczynniki, x):
     #wspolczynniki = [podstawa, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY]
+    nowyX = x
     if wspolczynniki[2] == "x":
         wspolczynniki[2] = x
-        x = 1
-    return wspolczynniki[0]*(pow(wspolczynniki[1],(wspolczynniki[2] * x) + wspolczynniki[3])+ wspolczynniki[4])
+        nowyX = 1
+
+    return wspolczynniki[0]*(pow(wspolczynniki[1],(wspolczynniki[2] * nowyX) + wspolczynniki[3])+ wspolczynniki[4])
 def rozwiazTrygonometryczne(wspolczynniki, x ):
     #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
 
@@ -116,17 +119,17 @@ def pochodnaWielomian(wspolczynniki):
 
 def pochodnaTrygonometrycznej(wspolczynniki):
     #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
-
+    noweWspolczynniki = wspolczynniki
     if wspolczynniki[0] == "sin":
-        wspolczynniki[0] = "cos"
-        return wspolczynniki
+        noweWspolczynniki[0] = "cos"
+        return noweWspolczynniki
     elif wspolczynniki[0] == "cos":
-        wspolczynniki[0] = "sin"
-        wspolczynniki[1] = wspolczynniki[1] * (-1)
-        return wspolczynniki
+        noweWspolczynniki[0] = "sin"
+        noweWspolczynniki[1] = wspolczynniki[1] * (-1)
+        return noweWspolczynniki
     elif wspolczynniki[0] == "tan":
-        wspolczynniki[0] = "sin/cos"
-        return wspolczynniki
+        noweWspolczynniki[0] = "sin/cos"
+        return noweWspolczynniki
     else:
         return -9999
 
@@ -138,5 +141,52 @@ def pochodnaWykladniczej(wspolczynniki):
     noweWspolczynniki.append(wspolczynniki[3])
     noweWspolczynniki.append(0)
     return noweWspolczynniki
+
+def getRandom():
+    output = str(math.floor(random.random()*1000))
+    return output
+def pochodnaZlozen(kolejnoscFunkcji):
+    pochodneFunkcji = []
+    kolejnoscPochodnych = []
+    for i in range(len(kolejnoscFunkcji)):
+        funkcja = collection[kolejnoscFunkcji[i]][1]
+        keyFunkcja = kolejnoscFunkcji[i][0]
+        match (keyFunkcja):
+            case '0':  # trygonometrycnza -
+                key = '0' + getRandom()
+                kolejnoscPochodnych.append(key)
+                collection[key] = [0,pochodnaTrygonometrycznej(funkcja)]
+            case '1':  # wykladniczza -
+                key = '1' + getRandom()
+                kolejnoscPochodnych.append(key)
+                collection[key] = [0,pochodnaWykladniczej(funkcja)]
+            case "2":  # wielomian -
+                key = '2' + getRandom()
+                kolejnoscPochodnych.append(key)
+                collection[key] = [0,pochodnaWielomian(funkcja)]
+            case _:
+                return -9999
+    print(kolejnoscPochodnych)
+    return kolejnoscPochodnych
+# test = pochodnaZlozen(['0','1','2'])
+# a = [1,2,3]
+# print(a[1:])
+# fun = ['d','g','f']
+# poch = ['dp','gp','fp']
+#
+# for i in range(len(poch)):
+#     print(poch[i])
+#     print(fun[i+1:])
+
+def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
+    wartosc = 1
+    for i in range(len(kolejnoscPochodnych)):
+        pochodna = kolejnoscPochodnych[i]
+        funkcje = kolejnoscFunkcji[i+1:]
+        wartoscFunkcjiZlozonych = rozwiazRowanianie(funkcje,x)
+        wartoscPochodnej = rozwiazRowanianie(pochodna,wartoscFunkcjiZlozonych)
+        wartosc *= wartoscPochodnej
+    print(wartosc)
+
 
 
