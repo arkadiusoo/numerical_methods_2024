@@ -4,7 +4,7 @@ import random
 bazaFunkcji = [
     ['tryg',"sin", 1, 1, 0,0,], # sin(x)
     ['wyk',1,2,1,1,+11], # 2^(x+1) + 11
-    ['weilo',1,0,-2,-2] # x^3 - 2x - 2
+    ['wielo',1,0,-2,-2] # x^3 - 2x - 2
 ]
 
 
@@ -174,15 +174,22 @@ def pochodnaZlozen(kolejnoscFunkcji):
 
 def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
     wartosc = 1
+    print(kolejnoscFunkcji)
     for i in range(len(kolejnoscPochodnych)):
         pochodna = [kolejnoscPochodnych[i]]
         funkcje = kolejnoscFunkcji[i+1:]
         wartoscFunkcjiZlozonych = rozwiazRowanianie(funkcje,x)
         wartoscPochodnej = rozwiazRowanianie(pochodna,wartoscFunkcjiZlozonych)
         wartosc *= wartoscPochodnej
+        text = "\t\ti = {}\npochodna = {} \t| wartosc pochodnej = {}\nfunkcje = {}\t| wartoscfucnkjiZlozonych = {}".format(i,pochodna,wartoscPochodnej,funkcje,wartoscFunkcjiZlozonych)
+        print(text)
     return wartosc
 
-funkcje = bazaFunkcji[0:2]
-pochodne = pochodnaZlozen(funkcje)
+funkcje = bazaFunkcji
+
+pochodne = pochodnaZlozen(funkcje[2])
+print("funkcje: {}\npochodne: {}".format(funkcje,pochodne))
 test = obliczWartoscPochodnychZlozen(funkcje,pochodne,2)
-print(test)
+testb = rozwiazRowanianie(pochodne,1)
+print(testb)
+# print(rozwiazRowanianie(pochodne,2.004))
