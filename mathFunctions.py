@@ -175,6 +175,72 @@ def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
         print(text)
     return wartosc
 
+#Komunikacja z userem
+print("Wybierz funkcje:", '\n',
+      "1. Rozwiaz rownanie nieliniowe", '\n', "2. Zlozenie rownan i rozwiazanie", '\n')
+wybor = int (input("Twoj wybor:"))
+zlozenia = 0
+if wybor == 2:
+    print("Podaj ilosc zlozen: ")
+    zlozenia = int(input(""))
+
+for i in zlozenia:
+    print("Wybierz funkcje:", '\n',
+          "1. Wielomianowa", '\n', "2. Trygonometryczna", '\n', "3. Wykladnicza")
+    wybor = int(input("Twoj wybor: "))
+    match (wybor):
+    #Jako, ze nie mozemy miec breakow to ten wybor bedzie wacky strasznie, ale co zrobic
+        case 1:
+            print("Podaj stopien wielomianu: ")
+            stopien = int (input(""))
+            for i in range(stopien):
+                print("Podaj wspolczynnik dla x do potegi ", i,": ")
+                #Tutaj trzeba dodać te tablice które się będą rozszerzać,
+                # poza tym przy każdym wyborze trzeba dać do tablicy ten klucz
+        case 2:
+            print("Wybierz funckje trygonometryczna: ",'\n',
+                  "1. Sinus", '\n', "2. Cosinus", '\n', "3. Tangens")
+            funkcjaTryg = int (input("Twoj wybor: "))
+            match (funkcjaTryg):
+                case 1: #dodaj do tablicy sin
+                        print("")
+                case 2: #dodaj do tablic cos
+                         print("")
+                case 3: #dodaj do tablicy tan
+                        print("")
+                case _: #nwm niech defaultowo bedzie sinus
+                        print("")
+            print("Podaj x: ")
+            x = int (input(""))
+            #dodaj do tablicy x
+        case 3:
+            print("Podaj podstawe: ")
+            podstawa = float (input(""))
+            #i tutaj chyba tylko starczy podstawa nie, bo w potedze bedzie x, chyba, ze zlozenie
+        case _:
+            #defaultowo nwm albo sinus albo niech program wybucha
+            raise Exception("Nieznana opcja")
+
+print("Podaj przedzial jaki chcesz przeszukac: ")
+a = float(input("Podaj poczatek przedzialu: "))
+b = float(input("Podaj koniec przedzialu: "))
+print("Wybierz kryterium stopu dla algorytmow: ",
+      '\n', "1. Dokladnosc obliczeniowa", '\n', "2. Liczba iteracji")
+kryterium = int(input("Twoj wybor: "))
+if kryterium != 0:
+    match (kryterium):
+        case 1:
+            print("Podaj epsilon: ")
+            epsilon = float (input(""))
+        case 2:
+            print("Podaj liczbe iteracji: ")
+            iteracje = int (input(""))
+        case _:
+            raise Exception("Nieznana opcja")
+#tutaj juz wynikowe
+print("Miejsce zerowe obliczone przy pomocy metody bisekcji:")
+print("Miejsce zerowe obliczone przy pomocy metody stycznych:")
+
 #TODO: 0. dodac sin/cos w rozwiazywaniu trygonometrycznych
 #TODO: 1. metoda siecznych
     #TODO: 1.1. metoda siecznych iteracyjnie
@@ -182,3 +248,4 @@ def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
 #TODO: 2. interfejs uzytkownika
 #TODO: 3. wykresiki
 #TODO: 4. sprawko
+
