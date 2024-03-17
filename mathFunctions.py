@@ -200,18 +200,12 @@ def metodasStycznejDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
         xk = temp
     return [xk, rozwiazRowanianie(kolejnoscFunkcji, xk)]
 
-a = metodasStycznejIteracje([bazaFunkcji[0],bazaFunkcji[2]],-2,1,1000)
-print(a)
-b = metodasStycznejDokladnosc([bazaFunkcji[0],bazaFunkcji[2]],-2,1,0.0001)
-print(b)
-
 def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe=None):
     rozpietoscDziedziny = abs(a) + abs(b)
     iloscPunktow = rozpietoscDziedziny * 100
     if miejsceZerowe != None:
         wartoscPZerowego = rozwiazRowanianie(kolejnoscFunkcji,miejsceZerowe)
         plt.plot(miejsceZerowe,wartoscPZerowego,marker='x', markersize=10, color="red", mec='r', mew=3)
-    print(iloscPunktow)
     krok = rozpietoscDziedziny / iloscPunktow
     zbiorX = []
     zbiorY = []
@@ -225,10 +219,6 @@ def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe=None):
         zbiorX.append(x)
         wartoscWPunkcie = rozwiazRowanianie(kolejnoscFunkcji, x)
         zbiorY.append(wartoscWPunkcie)
-    # print(krok)
-    # print(zbiorX)
-    # print(zbiorY)
-
 
     # domyslne wartosci
     figX = 6.4
@@ -276,7 +266,3 @@ def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe=None):
         plt.title("Wykres funkcji")
         plt.show()
 
-
-
-wygenerujWykres([bazaFunkcji[0],bazaFunkcji[2]],-8,1,0)
-wygenerujWykres([bazaFunkcji[0],bazaFunkcji[2]],-2,1,0)
