@@ -69,8 +69,6 @@ def metodaBisekcjiDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
     wartoscSrodka = 0
     while abs(rozwiazRowanianie(kolejnoscFunkcji, (a + b) / 2)) > dokladnosc:
 
-
-
         wartoscA = rozwiazRowanianie(kolejnoscFunkcji, a)
         wartoscB = rozwiazRowanianie(kolejnoscFunkcji, b)
         wartoscSrodka = rozwiazRowanianie(kolejnoscFunkcji, srodek)
@@ -104,7 +102,6 @@ def metodaBisekcjiIloscIteracji (kolejnoscFunkcji, a, b, iloscIteracji):
             a = srodek
         srodek = (a + b) / 2
     return [srodek, wartoscSrodka, licznik]
-
 def pochodnaWielomian(wspolczynniki):
     stopien = len(wspolczynniki) - 1
     noweWspolczynniki = []
@@ -112,7 +109,6 @@ def pochodnaWielomian(wspolczynniki):
         noweWspolczynniki.append(wspolczynniki[i]*stopien)
         stopien -= 1
     return noweWspolczynniki
-
 def pochodnaTrygonometrycznej(wspolczynniki):
     #wspolczynniki = [funTryg, wspolczynnikPrzyY, wspolczynnikPrzyX, wspolczynnikDoX, wspolczynnikDoY,]
     noweWspolczynniki = wspolczynniki
@@ -128,8 +124,6 @@ def pochodnaTrygonometrycznej(wspolczynniki):
         return noweWspolczynniki
     else:
          raise Exception("Nieznana funkcja trygonometryczna")
-
-
 def pochodnaWykladniczej(wspolczynniki):
     noweWspolczynniki = []
     noweWspolczynniki.append(math.log(wspolczynniki[1]))
@@ -138,7 +132,6 @@ def pochodnaWykladniczej(wspolczynniki):
     noweWspolczynniki.append(wspolczynniki[3])
     noweWspolczynniki.append(0)
     return noweWspolczynniki
-
 def pochodnaZlozen(kolejnoscFunkcji):
     kolejnoscPochodnych = []
     for i in range(len(kolejnoscFunkcji)):
@@ -161,8 +154,6 @@ def pochodnaZlozen(kolejnoscFunkcji):
             case _:
                 raise Exception("Nieznana funkcja")
     return kolejnoscPochodnych
-
-
 def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
     wartosc = 1
     for i in range(len(kolejnoscPochodnych)):
@@ -175,7 +166,6 @@ def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
         wartoscPochodnej = rozwiazRowanianie(pochodna,wartoscFunkcjiZlozonych)
         wartosc *= wartoscPochodnej
     return wartosc
-
 def metodasStycznejIteracje (kolejnoscFunkcji, a, b, iloscIteracji):
     kolejnoscPochodnych = pochodnaZlozen(kolejnoscFunkcji)
     xk = (a-b)/2
@@ -189,7 +179,6 @@ def metodasStycznejIteracje (kolejnoscFunkcji, a, b, iloscIteracji):
         temp = xk - (wartoscFunkcji / wartoscPochodnej)
         xk = temp
     return [xk,rozwiazRowanianie(kolejnoscFunkcji,xk),licznik]
-
 def metodasStycznejDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
     kolejnoscPochodnych = pochodnaZlozen(kolejnoscFunkcji)
     xk = (a-b)/2
@@ -199,7 +188,6 @@ def metodasStycznejDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
         temp = xk - (wartoscFunkcji / wartoscPochodnej)
         xk = temp
     return [xk, rozwiazRowanianie(kolejnoscFunkcji, xk)]
-
 def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe=None):
     rozpietoscDziedziny = abs(a) + abs(b)
     iloscPunktow = rozpietoscDziedziny * 100
@@ -265,4 +253,44 @@ def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe=None):
         plt.grid()
         plt.title("Wykres funkcji")
         plt.show()
+
+
+def pobierzFunkcje():
+    textWyboruFunkcji = "Jaki typ funkcji chcesz podać?\n1 - trygonometryczne\n2 - wykladnicza\n3 - wielomianowa\n\tTwoj wybor: "
+    wyborFunkcji = int(input(textWyboruFunkcji))
+    wspolczynniki = []
+    match wyborFunkcji:
+        case 1:
+            wspolczynniki.append("tryg")
+            funkcjaTrygonometryczna = str(input("Podaj funkcje trygonometryczną [sin/cos/tan]: "))
+            wspolczynniki.append(funkcjaTrygonometryczna)
+            wspolczynniki.append(1.0) #nie pozwalamy uzytkownikowi wstawiac wartosci przy funkcji trygonometrycznej
+            wspolczynnikiPrzyX = float(input("Podaj wspolczynnik przy x: "))
+            wspolczynniki.append(wspolczynnikiPrzyX)
+            wsplczynnikiDodawanyDoX = float(input("Podaj wspolczynnik dodawany do x: "))
+            wspolczynniki.append(wsplczynnikiDodawanyDoX)
+            wspolczynnikiDodawanyDoY = float(input("Podaj wspolczynnik dodawany do y: "))
+            wspolczynniki.append(wspolczynnikiDodawanyDoY)
+        case 2:
+            wspolczynniki.append("wyk")
+            wspolczynniki.append(1.0) #nie pozwalamy uzytkownikowi wprowadzac wartosci mnozacej wartosc podnoszona do potegi
+            wspolczynnikiPodstawa = float(input("Podaj podstawe potegi: "))
+            wspolczynniki.append(wspolczynnikiPodstawa)
+            wspolczynniki.append(1.0)  # nie pozwalamy uzytkownikowi wprowadzac wartosci mnozacej x
+            wspolczynnikDodawanyDoX = float(input("Podaj wspolczynnik dodawany do x: "))
+            wspolczynniki.append(wspolczynnikDodawanyDoX)
+            wspolczynnikiDodawanyDoY = float(input("Podaj wspolczynnik dodawany do y: "))
+            wspolczynniki.append(wspolczynnikiDodawanyDoY)
+        case 3:
+            wspolczynniki.append("wielo")
+            stopienWielomianu = int(input("Podaj stopien wielomianu: "))
+            temp = stopienWielomianu
+            for i in range(stopienWielomianu+1):
+                wspolczynnik = float(input("Podaj wspolczynnik przy x w potedze {}.: ".format(temp)))
+                wspolczynniki.append(wspolczynnik)
+                temp -= 1
+        case _:
+            raise Exception("Nieznany wybor")
+    return wspolczynniki
+
 
