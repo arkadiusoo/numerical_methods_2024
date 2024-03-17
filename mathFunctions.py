@@ -60,16 +60,16 @@ def rozwiazRowanianie(kolejnoscFunkcji,x):
                 case _:
                     raise Exception("Nieznana funkcja")
     return wynik
-def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
+def metodaBisekcjiDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
     srodek = (a + b) / 2
     wartoscSrodka = 0
-    while abs(rozwiazRowanianie(wspolczynniki, (a + b) / 2)) > dokladnosc:
+    while abs(rozwiazRowanianie(kolejnoscFunkcji, (a + b) / 2)) > dokladnosc:
 
 
 
-        wartoscA = rozwiazRowanianie(wspolczynniki, a)
-        wartoscB = rozwiazRowanianie(wspolczynniki, b)
-        wartoscSrodka = rozwiazRowanianie(wspolczynniki, srodek)
+        wartoscA = rozwiazRowanianie(kolejnoscFunkcji, a)
+        wartoscB = rozwiazRowanianie(kolejnoscFunkcji, b)
+        wartoscSrodka = rozwiazRowanianie(kolejnoscFunkcji, srodek)
 
         if wartoscSrodka == 0:
             return [srodek,wartoscSrodka]
@@ -80,7 +80,7 @@ def metodaBisekcjiDokladnosc (wspolczynniki, a, b, dokladnosc):
         srodek = (a + b) / 2
     return [srodek,wartoscSrodka]
 
-def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
+def metodaBisekcjiIloscIteracji (kolejnoscFunkcji, a, b, iloscIteracji):
     licznik = 0
     srodek = (a + b) / 2
     wartoscSrodka = 0
@@ -88,9 +88,9 @@ def metodaBisekcjiIloscIteracji (wspolczynniki, a, b, iloscIteracji):
     while (licznik < iloscIteracji):
         licznik += 1
 
-        wartoscA = rozwiazRowanianie(wspolczynniki, a)
-        wartoscB = rozwiazRowanianie(wspolczynniki, b)
-        wartoscSrodka = rozwiazRowanianie(wspolczynniki, srodek)
+        wartoscA = rozwiazRowanianie(kolejnoscFunkcji, a)
+        wartoscB = rozwiazRowanianie(kolejnoscFunkcji, b)
+        wartoscSrodka = rozwiazRowanianie(kolejnoscFunkcji, srodek)
 
         if wartoscSrodka == 0:
             return [srodek,wartoscSrodka, licznik]
@@ -161,7 +161,6 @@ def pochodnaZlozen(kolejnoscFunkcji):
 
 def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
     wartosc = 1
-    print("****start funkcji - kolejnosc funkcji = {}\n\t\t\t\t\tkolejnosc pochodnych = {}".format(kolejnoscFunkcji,kolejnoscPochodnych))
     for i in range(len(kolejnoscPochodnych)):
         pochodna = [kolejnoscPochodnych[i]]
         funkcje = kolejnoscFunkcji[i+1:]
@@ -171,14 +170,33 @@ def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
             wartoscFunkcjiZlozonych = rozwiazRowanianie(funkcje,x)
         wartoscPochodnej = rozwiazRowanianie(pochodna,wartoscFunkcjiZlozonych)
         wartosc *= wartoscPochodnej
-        text = "\t\ti = {}\npochodna = {} \t| wartosc pochodnej = {}\nfunkcje = {}\t| wartoscfucnkjiZlozonych = {}".format(i,pochodna,wartoscPochodnej,funkcje,wartoscFunkcjiZlozonych)
-        print(text)
     return wartosc
 
-#TODO: 0. dodac sin/cos w rozwiazywaniu trygonometrycznych
-#TODO: 1. metoda siecznych
-    #TODO: 1.1. metoda siecznych iteracyjnie
-    #TODO: 1.2. metoda siecznych dokladnosc
-#TODO: 2. interfejs uzytkownika
-#TODO: 3. wykresiki
-#TODO: 4. sprawko
+def metodasStycznejIteracje (kolejnoscFunkcji, a, b, iloscIteracji):
+    kolejnoscPochodnych = pochodnaZlozen(kolejnoscFunkcji)
+    xk = (a-b)/2
+    licznik = 0
+    while licznik < iloscIteracji:
+        licznik += 1
+        wartoscFunkcji = rozwiazRowanianie(kolejnoscFunkcji,xk)
+        if wartoscFunkcji == 0:
+            return [xk, wartoscFunkcji,licznik]
+        wartoscPochodnej = obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych, xk)
+        temp = xk - (wartoscFunkcji / wartoscPochodnej)
+        xk = temp
+    return [xk,rozwiazRowanianie(kolejnoscFunkcji,xk),licznik]
+
+def metodasStycznejDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
+    kolejnoscPochodnych = pochodnaZlozen(kolejnoscFunkcji)
+    xk = (a-b)/2
+    while abs(rozwiazRowanianie(kolejnoscFunkcji,xk)) > dokladnosc:
+        wartoscFunkcji = rozwiazRowanianie(kolejnoscFunkcji, xk)
+        wartoscPochodnej = obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych, xk)
+        temp = xk - (wartoscFunkcji / wartoscPochodnej)
+        xk = temp
+    return [xk, rozwiazRowanianie(kolejnoscFunkcji, xk)]
+
+a = metodasStycznejIteracje([bazaFunkcji[0],bazaFunkcji[2]],-2,1,1000)
+print(a)
+b = metodasStycznejDokladnosc([bazaFunkcji[0],bazaFunkcji[2]],-2,1,0.0001)
+print(b)
