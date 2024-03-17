@@ -48,11 +48,13 @@ while flag:
             mowaKoncowaBisekcja = ("\t\tMETODA BISEKCJI"
                            "\nDla podanej funkcji okreslonej na przedziale od {} do {}."
                            "\nZnaleziono miejsce zerowe w punkcie x = {}"
-                           "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}".format(poczatekPrzedzialu,koniecPrzedzialu,bisekcjaDokladnosc[0],bisekcjaDokladnosc[1]))
+                           "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}"
+                            "\nMetoda wykonala sie w {} iteracjach.".format(poczatekPrzedzialu,koniecPrzedzialu,bisekcjaDokladnosc[0],bisekcjaDokladnosc[1],bisekcjaDokladnosc[2]))
             mowaKoncowaStycznych = ("\t\tMETODA STYCZNYCH"
                            "\nDla podanej funkcji okreslonej na przedziale od {} do {}."
                            "\nZnaleziono miejsce zerowe w punkcie x = {}"
-                           "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}".format(poczatekPrzedzialu,koniecPrzedzialu,stycznejDokladnosc[0],stycznejDokladnosc[1]))
+                           "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}"
+                            "\nMetoda wykonala sie w {} iteracjach.".format(poczatekPrzedzialu,koniecPrzedzialu,stycznejDokladnosc[0],stycznejDokladnosc[1],stycznejDokladnosc[2]))
             print("\tOUTPUT")
             print(mowaKoncowaBisekcja)
             print(mowaKoncowaStycznych)

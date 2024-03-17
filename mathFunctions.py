@@ -67,7 +67,9 @@ def rozwiazRowanianie(kolejnoscFunkcji,x):
 def metodaBisekcjiDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
     srodek = (a + b) / 2
     wartoscSrodka = 0
+    licznik = 0
     while abs(rozwiazRowanianie(kolejnoscFunkcji, (a + b) / 2)) > dokladnosc:
+        licznik += 1
 
         wartoscA = rozwiazRowanianie(kolejnoscFunkcji, a)
         wartoscB = rozwiazRowanianie(kolejnoscFunkcji, b)
@@ -80,7 +82,7 @@ def metodaBisekcjiDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
         elif (wartoscB > 0 and wartoscSrodka < 0) or (wartoscB < 0 and wartoscSrodka > 0):
             a = srodek
         srodek = (a + b) / 2
-    return [srodek,wartoscSrodka]
+    return [srodek,wartoscSrodka, licznik]
 
 def metodaBisekcjiIloscIteracji (kolejnoscFunkcji, a, b, iloscIteracji):
     licznik = 0
@@ -182,12 +184,14 @@ def metodasStycznejIteracje (kolejnoscFunkcji, a, b, iloscIteracji):
 def metodasStycznejDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
     kolejnoscPochodnych = pochodnaZlozen(kolejnoscFunkcji)
     xk = (a-b)/2
+    licznik = 0
     while abs(rozwiazRowanianie(kolejnoscFunkcji,xk)) > dokladnosc:
+        licznik += 1
         wartoscFunkcji = rozwiazRowanianie(kolejnoscFunkcji, xk)
         wartoscPochodnej = obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych, xk)
         temp = xk - (wartoscFunkcji / wartoscPochodnej)
         xk = temp
-    return [xk, rozwiazRowanianie(kolejnoscFunkcji, xk)]
+    return [xk, rozwiazRowanianie(kolejnoscFunkcji, xk),licznik]
 def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe1, miejsceZerowe2):
     rozpietoscDziedziny = abs(a) + abs(b)
     iloscPunktow = rozpietoscDziedziny * 100
