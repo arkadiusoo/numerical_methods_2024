@@ -65,6 +65,10 @@ def rozwiazRowanianie(kolejnoscFunkcji,x):
                     raise Exception("Nieznana funkcja")
     return wynik
 def metodaBisekcjiDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
+    wartoscNaA = rozwiazRowanianie(kolejnoscFunkcji, a)
+    wartoscNaB = rozwiazRowanianie(kolejnoscFunkcji, b)
+    if (wartoscNaA > 0 and wartoscNaB > 0) or (wartoscNaA < 0 and wartoscNaB < 0):
+        raise Exception("Bledna dziedzina")
     srodek = (a + b) / 2
     wartoscSrodka = 0
     licznik = 0
@@ -85,6 +89,10 @@ def metodaBisekcjiDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
     return [srodek,wartoscSrodka, licznik]
 
 def metodaBisekcjiIloscIteracji (kolejnoscFunkcji, a, b, iloscIteracji):
+    wartoscNaA = rozwiazRowanianie(kolejnoscFunkcji, a)
+    wartoscNaB = rozwiazRowanianie(kolejnoscFunkcji, b)
+    if (wartoscNaA > 0 and wartoscNaB > 0) or (wartoscNaA < 0 and wartoscNaB < 0):
+        raise Exception("Bledna dziedzina")
     licznik = 0
     srodek = (a + b) / 2
     wartoscSrodka = 0
@@ -169,6 +177,10 @@ def obliczWartoscPochodnychZlozen(kolejnoscFunkcji,kolejnoscPochodnych,x):
         wartosc *= wartoscPochodnej
     return wartosc
 def metodasStycznejIteracje (kolejnoscFunkcji, a, b, iloscIteracji):
+    wartoscNaA = rozwiazRowanianie(kolejnoscFunkcji, a)
+    wartoscNaB = rozwiazRowanianie(kolejnoscFunkcji, b)
+    if (wartoscNaA > 0 and wartoscNaB > 0) or (wartoscNaA < 0 and wartoscNaB < 0):
+        raise Exception("Bledna dziedzina")
     kolejnoscPochodnych = pochodnaZlozen(kolejnoscFunkcji)
     xk = (a-b)/2
     licznik = 0
@@ -182,6 +194,10 @@ def metodasStycznejIteracje (kolejnoscFunkcji, a, b, iloscIteracji):
         xk = temp
     return [xk,rozwiazRowanianie(kolejnoscFunkcji,xk),licznik]
 def metodasStycznejDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
+    wartoscNaA = rozwiazRowanianie(kolejnoscFunkcji, a)
+    wartoscNaB = rozwiazRowanianie(kolejnoscFunkcji, b)
+    if (wartoscNaA > 0 and wartoscNaB > 0) or (wartoscNaA < 0 and wartoscNaB < 0):
+        raise Exception("Bledna dziedzina")
     kolejnoscPochodnych = pochodnaZlozen(kolejnoscFunkcji)
     xk = (a-b)/2
     licznik = 0
