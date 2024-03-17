@@ -1,4 +1,5 @@
 import math
+import matplotlib.pyplot as plt
 
 bazaFunkcji = [
     ['tryg',"sin", 1, 1, 0,0,], # sin(x)
@@ -203,3 +204,79 @@ a = metodasStycznejIteracje([bazaFunkcji[0],bazaFunkcji[2]],-2,1,1000)
 print(a)
 b = metodasStycznejDokladnosc([bazaFunkcji[0],bazaFunkcji[2]],-2,1,0.0001)
 print(b)
+
+def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe=None):
+    rozpietoscDziedziny = abs(a) + abs(b)
+    iloscPunktow = rozpietoscDziedziny * 100
+    if miejsceZerowe != None:
+        wartoscPZerowego = rozwiazRowanianie(kolejnoscFunkcji,miejsceZerowe)
+        plt.plot(miejsceZerowe,wartoscPZerowego,marker='x', markersize=10, color="red", mec='r', mew=3)
+    print(iloscPunktow)
+    krok = rozpietoscDziedziny / iloscPunktow
+    zbiorX = []
+    zbiorY = []
+    x = a
+    zbiorX.append(x)
+    zbiorY.append(rozwiazRowanianie(kolejnoscFunkcji, x))
+    for i in range(iloscPunktow):
+        x += krok
+        if  x > b:
+            break
+        zbiorX.append(x)
+        wartoscWPunkcie = rozwiazRowanianie(kolejnoscFunkcji, x)
+        zbiorY.append(wartoscWPunkcie)
+    # print(krok)
+    # print(zbiorX)
+    # print(zbiorY)
+
+
+    # domyslne wartosci
+    figX = 6.4
+    figY = 4.8
+    dpi = 100
+    titleSize = 10
+    tickSize = 0.8 * titleSize
+
+    if iloscPunktow > 300:
+
+
+        #obliczam skale oraz skaluje
+        skala = iloscPunktow / 300
+        newfigX = figX * skala
+        newfigY = figY * skala
+        newdpi = dpi * skala
+        newtitleSize = titleSize * skala
+        newtickSize = newtitleSize * 0.8
+
+
+        #stosuje przesklaowane wartosci
+        fig = plt.gcf()
+        fig.set_size_inches(newfigX, newfigY)
+        fig.set_dpi(newdpi)
+        plt.rc('font',size=newtitleSize)
+        plt.xticks(fontsize=newtickSize)
+        plt.yticks(fontsize=newtickSize)
+
+        #generuje wykres
+        plt.plot(zbiorX, zbiorY)
+        plt.grid()
+        plt.title("Wykres funkcji")
+        plt.show()
+
+        #przywracam wartosci domyslne
+        fig.set_size_inches(figX, figY)
+        fig.set_dpi(dpi)
+        plt.rc('font',size=titleSize)
+        plt.xticks(fontsize=tickSize)
+        plt.yticks(fontsize=tickSize)
+    else:
+        #generuje wykres
+        plt.plot(zbiorX, zbiorY)
+        plt.grid()
+        plt.title("Wykres funkcji")
+        plt.show()
+
+
+
+wygenerujWykres([bazaFunkcji[0],bazaFunkcji[2]],-8,1,0)
+wygenerujWykres([bazaFunkcji[0],bazaFunkcji[2]],-2,1,0)
