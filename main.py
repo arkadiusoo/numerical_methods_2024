@@ -2,14 +2,14 @@ import mathFunctions as mf
 
 flag = True
 
-print("\t\tt***Witaj w programie służącym do wynajdowania miejsca zerowego funkcji nieliniowych***")
+print("\t\t***Witaj w programie służącym do wynajdowania miejsca zerowego rownan nieliniowych***")
 while flag:
     #pobieranie ilosci zlozen
     iloscZlozen = int(input("Podaj ilosc zlozen swojej funkcji: "))
 
     #pobieranie funkcji
     kolejnoscFunkcji = []
-    for i in range(iloscZlozen):
+    for i in range(iloscZlozen+1):
         print("Funkcja nr {}".format(i+1))
         funkcja = mf.pobierzFunkcje()
         kolejnoscFunkcji.append(funkcja)
@@ -31,14 +31,15 @@ while flag:
                            "\nZnaleziono miejsce zerowe w punkcie x = {}"
                            "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}"
                            "\nMetoda wykonala sie w {} iteracjach.".format(poczatekPrzedzialu,koniecPrzedzialu,bisekcjaIteracyjnie[0],bisekcjaIteracyjnie[1],bisekcjaIteracyjnie[2]))
-            mowaKoncowaStycznych = ("\t\tMETODA BISEKCJI"
+            mowaKoncowaStycznych = ("\t\tMETODA STYCZNYCH"
                            "\nDla podanej funkcji okreslonej na przedziale od {} do {}."
                            "\nZnaleziono miejsce zerowe w punkcie x = {}"
                            "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}"
                            "\nMetoda wykonala sie w {} iteracjach.".format(poczatekPrzedzialu,koniecPrzedzialu,stycznejIteracje[0],stycznejIteracje[1],stycznejIteracje[2]))
-            print("\t\tOUTPUT")
+            print("\tOUTPUT")
             print(mowaKoncowaBisekcja)
             print(mowaKoncowaStycznych)
+            mf.wygenerujWykres(kolejnoscFunkcji,poczatekPrzedzialu,koniecPrzedzialu,bisekcjaIteracyjnie[0],stycznejIteracje[0])
         case 2:
             dokladnosc = float(input("Podaj dokladnosc, po osiagnieciu ktorej algorytm ma sie zatrzymac: "))
             bisekcjaDokladnosc = mf.metodaBisekcjiDokladnosc(kolejnoscFunkcji,poczatekPrzedzialu,koniecPrzedzialu,dokladnosc) #[miejsceZerowe,jegoWartosc]
@@ -48,18 +49,19 @@ while flag:
                            "\nDla podanej funkcji okreslonej na przedziale od {} do {}."
                            "\nZnaleziono miejsce zerowe w punkcie x = {}"
                            "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}".format(poczatekPrzedzialu,koniecPrzedzialu,bisekcjaDokladnosc[0],bisekcjaDokladnosc[1]))
-            mowaKoncowaStycznych = ("\t\tMETODA BISEKCJI"
+            mowaKoncowaStycznych = ("\t\tMETODA STYCZNYCH"
                            "\nDla podanej funkcji okreslonej na przedziale od {} do {}."
                            "\nZnaleziono miejsce zerowe w punkcie x = {}"
                            "\nPrzyblizona wartosc funkcji w tym punkcie wynosi {}".format(poczatekPrzedzialu,koniecPrzedzialu,stycznejDokladnosc[0],stycznejDokladnosc[1]))
-            print("\t\tOUTPUT")
+            print("\tOUTPUT")
             print(mowaKoncowaBisekcja)
             print(mowaKoncowaStycznych)
+            mf.wygenerujWykres(kolejnoscFunkcji,poczatekPrzedzialu,koniecPrzedzialu,bisekcjaDokladnosc[0],stycznejDokladnosc[0])
 
         case _:
             raise Exception("Nieznany wybor")
 
-    czyKontynuacja = int(input("Czy chcesz zakonczyc program?\n - tak\n2 - nie\n\tTwoj wybor: "))
+    czyKontynuacja = int(input("Czy chcesz zakonczyc program?\n1 - tak\n2 - nie\n\tTwoj wybor: "))
     if czyKontynuacja !=2:
         flag = False
 

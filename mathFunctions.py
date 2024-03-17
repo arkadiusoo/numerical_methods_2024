@@ -188,19 +188,23 @@ def metodasStycznejDokladnosc (kolejnoscFunkcji, a, b, dokladnosc):
         temp = xk - (wartoscFunkcji / wartoscPochodnej)
         xk = temp
     return [xk, rozwiazRowanianie(kolejnoscFunkcji, xk)]
-def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe=None):
+def wygenerujWykres (kolejnoscFunkcji, a,b, miejsceZerowe1, miejsceZerowe2):
     rozpietoscDziedziny = abs(a) + abs(b)
     iloscPunktow = rozpietoscDziedziny * 100
-    if miejsceZerowe != None:
-        wartoscPZerowego = rozwiazRowanianie(kolejnoscFunkcji,miejsceZerowe)
-        plt.plot(miejsceZerowe,wartoscPZerowego,marker='x', markersize=10, color="red", mec='r', mew=3)
+
+    #zaznaczanie miejsc zerowych z funkcji
+    wartoscPZerowego1 = rozwiazRowanianie(kolejnoscFunkcji,miejsceZerowe1)
+    wartoscPZerowego2 = rozwiazRowanianie(kolejnoscFunkcji,miejsceZerowe2)
+    plt.plot(miejsceZerowe1,wartoscPZerowego1,marker='x', markersize=10, color="red", mec='r', mew=3)
+    plt.plot(miejsceZerowe2,wartoscPZerowego2,marker='x', markersize=10, color="green", mec='g', mew=3)
+
     krok = rozpietoscDziedziny / iloscPunktow
     zbiorX = []
     zbiorY = []
     x = a
     zbiorX.append(x)
     zbiorY.append(rozwiazRowanianie(kolejnoscFunkcji, x))
-    for i in range(iloscPunktow):
+    for i in range(int(iloscPunktow)):
         x += krok
         if  x > b:
             break
