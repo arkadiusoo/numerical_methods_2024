@@ -29,6 +29,9 @@ def rozwiazTrygonometryczne(wspolczynniki, x ):
         return wspolczynniki[1] * math.cos(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
     elif wspolczynniki[0] == "tan":
         return wspolczynniki[1] * math.tan(wspolczynniki[2] * x + wspolczynniki[3]) + wspolczynniki[4]
+    elif wspolczynniki[0] == "sin/cos":
+        sincos = math.sin(wspolczynniki[2] * x + wspolczynniki[3]) / math.cos(wspolczynniki[2] * x + wspolczynniki[3])
+        return wspolczynniki[1] * sincos * + + wspolczynniki[4]
     else:
         raise Exception("Nieznana funkcja trygonometryczna")
 def rozwiazRowanianie(kolejnoscFunkcji,x):
