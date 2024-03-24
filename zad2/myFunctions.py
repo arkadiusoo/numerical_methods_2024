@@ -1,3 +1,4 @@
+from copy import deepcopy
 
 
 def readDataFromFile(fileName):
@@ -52,7 +53,7 @@ def theJacobMethod(gigaMatrix,x0):
 def theGaussSeidelMethod(gigaMatrix, x0):
     unknownCount = len(gigaMatrix)
 
-    newX0 = x0
+    newX0 = deepcopy(x0)
     for i in range(unknownCount):
         tempSum = 0
 
@@ -67,18 +68,61 @@ def theGaussSeidelMethod(gigaMatrix, x0):
         newX0[i] = tempSum
     return newX0
 
+def getPrecisions(oldX0, newX0):
+    precisions = []
+    for i in range(len(oldX0)):
+        precisions.append(abs(newX0[i] - oldX0[i]))
+    return precisions
+
+def getAverage(array):
+    return sum(array) / len(array)
+def iterativeGaussSeidelMethod(gigaMatrix, x0, iterations):
+    oldX0 = x0
+    newX0 = theGaussSeidelMethod(gigaMatrix, x0)
+    for i in range(iterations-1):
+        oldX0 = deepcopy(newX0)
+        newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
+    precisions = getPrecisions(oldX0, newX0)
+    return newX0,precisions,iterations
+
+def precisionGaussSeidelMethod(gigaMatrix, x0, precision):
+    print(x0)
+    oldX0 = deepcopy(x0)
+    newX0 = theGaussSeidelMethod(gigaMatrix, x0)
+    print("old: {} \nnew: {}".format(oldX0, newX0))
+    print(getPrecisions(oldX0,newX0))
+    counter = 1
+    while getAverage(getPrecisions(oldX0,newX0)) > precision:
+        counter += 1
+        oldX0 = deepcopy(newX0)
+        newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
+    precisions = getPrecisions(oldX0,newX0)
+
+    return newX0,precisions, counter
+
+def ifCatercornered(matrix):
+    rows = len(matrix)
+    for i in range(rows):
+        diagonalValue = abs(matrix[i][i])
+        sumOfRow = 0
+        for i in matrix[i]:
+            sumOfRow += abs(i)
+        sumOfRow -= diagonalValue
+        if diagonalValue < sumOfRow:
+            return False
+    return True
+
 
 
 coefficients, constants = readDataFromFile("data.txt")
+print(ifCatercornered(coefficients))
 gigaMatrix = createMatrix(coefficients,constants)
 x0 = [1,1,1,1]
-metodaJacoba = theJacobMethod(gigaMatrix,x0)
-metodaGausa = theGaussSeidelMethod(gigaMatrix, x0)
-print(metodaJacoba)
-print(metodaGausa)
-# for row in gigaMatrix:
-#     print(row)
+newX0 = theGaussSeidelMethod(gigaMatrix, x0)
+# print(newX0)
+# for i in range(4):
+#     newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
+#     print(newX0)
 
-#
-# print("wspolczynniki: " + str(coefficients))
-# print("wyrazy wolne:" + str(constants))
+print(iterativeGaussSeidelMethod(gigaMatrix, x0,3))
+print(precisionGaussSeidelMethod(gigaMatrix, x0,0.0000000000001))
