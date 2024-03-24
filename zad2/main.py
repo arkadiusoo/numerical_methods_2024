@@ -1,14 +1,12 @@
 import myFunctions as mf
 
-flag = True
-
-text0 = "\t\tWitaj w programie do rozwiazywania rownan nieliniowych metoda Gaussa-Seidela"
-text1 = "\tWybierz w metode w jaki sposob chcesz wprowadzic dane:\n1 - z pliku\n2 - recznie wprowadze\n\tTwoj wybor: "
-text2 = "\tWybierz motedo zakonczenia algorytmu:\n1 - iteracyjnie\n2 - dokladnosc\n\tTwoj wybor: "
-text3 = "Nie jest to macierz diagonalna, wpisz poprawne wartosci."
+text0 = "\t\t***Witaj w programie do rozwiazywania rownan nieliniowych metoda Gaussa-Seidela***"
+text1 = "Wybierz w metode w jaki sposob chcesz wprowadzic dane:\n\t1 - z pliku\n\t2 - recznie wprowadze\n\t3 - zakoncz program\nTwoj wybor: "
+text2 = "Wybierz metode zakonczenia algorytmu:\n\t1 - iteracyjnie\n\t2 - dokladnosc\nTwoj wybor: "
+text3 = "Niestety, nie jest to macierz diagonalna, wpisz poprawne wartosci.\n\n"
 
 print(text0)
-while flag:
+while True:
     wybor1 = input(text1)
 
     x0 = [1, 1, 1, 1]
@@ -40,6 +38,8 @@ while flag:
             if mf.ifCatercornered(coefficients) == False:
                 print(text3)
                 continue
+        case "3":
+            break
         case _:
             raise Exception("Niepoprawny pierwszy wybor")
 
@@ -57,8 +57,8 @@ while flag:
         case _:
             raise Exception("Niepoprawny drugi wybor")
 
-    mowaKoncowa = "\tObliczone rozwiazania:\n{}\n\tDokladnosc dla kazdego rozwiazania:\n{}\n\tLiczba iteracji: {}\n".format(x0,precisions,counter)
+    mowaKoncowa = "**Obliczone rozwiazania:\n\t{}\n**Dokladnosc dla kazdego rozwiazania:\n\t{}\n**Liczba iteracji: {}\n".format(newX0,precisions,counter)
     print(mowaKoncowa)
 
-
+print("\nMilego dnia!")
 
