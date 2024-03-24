@@ -56,7 +56,6 @@ def theGaussSeidelMethod(gigaMatrix, x0):
     newX0 = deepcopy(x0)
     for i in range(unknownCount):
         tempSum = 0
-
         for j in range(unknownCount):
             if i == j:
                 None
@@ -64,8 +63,8 @@ def theGaussSeidelMethod(gigaMatrix, x0):
                 xi = newX0[j]
                 tempSum += (gigaMatrix[i][j] * xi)
         tempSum += gigaMatrix[i][unknownCount]
-
         newX0[i] = tempSum
+        # print("iteracja: {} | newX0 = {}".format(i+1, newX0))
     return newX0
 
 def getPrecisions(oldX0, newX0):
@@ -113,7 +112,7 @@ def ifCatercornered(matrix):
     return True
 
 
-#
+
 # coefficients, constants = readDataFromFile("data.txt")
 # print(ifCatercornered(coefficients))
 # gigaMatrix = createMatrix(coefficients,constants)
@@ -124,5 +123,5 @@ def ifCatercornered(matrix):
 # #     newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
 # #     print(newX0)
 #
-# print(iterativeGaussSeidelMethod(gigaMatrix, x0,3))
+# print(iterativeGaussSeidelMethod(gigaMatrix, x0,2))
 # print(precisionGaussSeidelMethod(gigaMatrix, x0,0.0000000000001))
