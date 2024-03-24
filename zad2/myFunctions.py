@@ -14,8 +14,28 @@ def readDataFromFile(fileName):
         coefficients.append(line)
     return coefficients, constants
 
+def createMatrix(coefficients, constants):
+    rows = len(coefficients)
+    columns = rows
+    gigaMatrix = []
+    for i in range(rows):
+        divisior = coefficients[i][i]
 
-# coefficients, constants = readDataFromFile("data.txt")
+        temp = []
+        for j in range(columns):
+            value = (coefficients[i][j] / divisior) * (-1.0)
+            temp.append(value)
+        temp[i] *= (-1.0)
+        value2 = constants[i] / divisior
+        temp.append(value2)
+        gigaMatrix.append(temp)
+    return gigaMatrix
+
+
+coefficients, constants = readDataFromFile("data.txt")
+gigaMatrix = createMatrix(coefficients,constants)
+# for row in gigaMatrix:
+#     print(row)
 #
 # print("wspolczynniki: " + str(coefficients))
 # print("wyrazy wolne:" + str(constants))
