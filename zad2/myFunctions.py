@@ -31,11 +31,10 @@ def createMatrix(coefficients, constants):
         gigaMatrix.append(temp)
     return gigaMatrix
 
-def theJacobMethod(gigaMatrix):
+def theJacobMethod(gigaMatrix,x0):
     unknownCount = len(gigaMatrix)
 
-    x0 = [1] * unknownCount
-    a = []
+    newX0 = []
     for i in range(unknownCount):
         tempSum = 0
 
@@ -45,21 +44,41 @@ def theJacobMethod(gigaMatrix):
             else:
                 xi = x0[j]
                 tempSum += (gigaMatrix[i][j] * xi)
-        print(gigaMatrix[i][unknownCount])
         tempSum += gigaMatrix[i][unknownCount]
 
-        a.append(tempSum)
-    print(a)
+        newX0.append(tempSum)
+    return newX0
 
+def theGaussSeidelMethod(gigaMatrix, x0):
+    unknownCount = len(gigaMatrix)
 
+    newX0 = x0
+    for i in range(unknownCount):
+        tempSum = 0
+
+        for j in range(unknownCount):
+            if i == j:
+                None
+            else:
+                xi = newX0[j]
+                tempSum += (gigaMatrix[i][j] * xi)
+        tempSum += gigaMatrix[i][unknownCount]
+
+        newX0[i] = tempSum
+    return newX0
 
 
 
 coefficients, constants = readDataFromFile("data.txt")
 gigaMatrix = createMatrix(coefficients,constants)
-theJacobMethod(gigaMatrix)
-for row in gigaMatrix:
-    print(row)
+x0 = [1,1,1,1]
+metodaJacoba = theJacobMethod(gigaMatrix,x0)
+metodaGausa = theGaussSeidelMethod(gigaMatrix, x0)
+print(metodaJacoba)
+print(metodaGausa)
+# for row in gigaMatrix:
+#     print(row)
+
 #
 # print("wspolczynniki: " + str(coefficients))
 # print("wyrazy wolne:" + str(constants))
