@@ -118,11 +118,11 @@ coefficients, constants = readDataFromFile("data.txt")
 print(ifCatercornered(coefficients))
 gigaMatrix = createMatrix(coefficients,constants)
 x0 = [1,1,1,1]
-newX0 = theGaussSeidelMethod(gigaMatrix, x0)
-# print(newX0)
-# for i in range(4):
-#     newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
-#     print(newX0)
-
-print(iterativeGaussSeidelMethod(gigaMatrix, x0,3))
-print(precisionGaussSeidelMethod(gigaMatrix, x0,0.0000000000001))
+# newX0 = theGaussSeidelMethod(gigaMatrix, x0)
+# # print(newX0)
+# # for i in range(4):
+# #     newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
+# #     print(newX0)
+#
+# print(iterativeGaussSeidelMethod(gigaMatrix, x0,3))
+# print(precisionGaussSeidelMethod(gigaMatrix, x0,0.0000000000001))
