@@ -31,11 +31,35 @@ def createMatrix(coefficients, constants):
         gigaMatrix.append(temp)
     return gigaMatrix
 
+def theJacobMethod(gigaMatrix):
+    unknownCount = len(gigaMatrix)
+
+    x0 = [1] * unknownCount
+    a = []
+    for i in range(unknownCount):
+        tempSum = 0
+
+        for j in range(unknownCount):
+            if i == j:
+                None
+            else:
+                xi = x0[j]
+                tempSum += (gigaMatrix[i][j] * xi)
+        print(gigaMatrix[i][unknownCount])
+        tempSum += gigaMatrix[i][unknownCount]
+
+        a.append(tempSum)
+    print(a)
+
+
+
+
 
 coefficients, constants = readDataFromFile("data.txt")
 gigaMatrix = createMatrix(coefficients,constants)
-# for row in gigaMatrix:
-#     print(row)
+theJacobMethod(gigaMatrix)
+for row in gigaMatrix:
+    print(row)
 #
 # print("wspolczynniki: " + str(coefficients))
 # print("wyrazy wolne:" + str(constants))
