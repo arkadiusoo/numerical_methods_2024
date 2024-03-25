@@ -111,17 +111,46 @@ def ifCatercornered(matrix):
             return False
     return True
 
+def makeItCatercornered(matrix):
+    unknownCounter = len(matrix)
+    newMatrix = [[]] * unknownCounter
+    print(newMatrix)
+    for i in range(unknownCounter):
+        row = matrix[i]
+        maxAbsValue = row[0]
+        inexMaxAbsvalue = 0
+        absSum = 0
+        for j in range(unknownCounter):
+            absValue = abs(row[j])
+            if absValue > maxAbsValue:
+                maxAbsValue = absValue
+                inexMaxAbsvalue = j
+            absSum += absValue
+        absSum -= maxAbsValue
+
+        if maxAbsValue > absSum:
+            newMatrix[inexMaxAbsvalue] = row
+
+    for row in newMatrix:
+        if len(row) == 0:
+            return False
+    return newMatrix
+
+testowyMatrix = [[3,-1,2,40],[1,6,1,-1],[8,1,2,3],[2,1,18,2]]
+
+test = makeItCatercornered(testowyMatrix)
+print(test)
 
 
 # coefficients, constants = readDataFromFile("data.txt")
-# print(ifCatercornered(coefficients))
+# # print(ifCatercornered(coefficients))
 # gigaMatrix = createMatrix(coefficients,constants)
 # x0 = [1,1,1,1]
 # newX0 = theGaussSeidelMethod(gigaMatrix, x0)
-# # print(newX0)
-# # for i in range(4):
-# #     newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
-# #     print(newX0)
+# print(newX0)
+# for i in range(4):
+#     newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
+#     print(newX0)
 #
 # print(iterativeGaussSeidelMethod(gigaMatrix, x0,2))
 # print(precisionGaussSeidelMethod(gigaMatrix, x0,0.0000000000001))

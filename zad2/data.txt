@@ -1,5 +1,4 @@
 [coding system: in one line you provide coefficients and constant at the end]
-8 1 2 3 28
-1 6 1 -1 12
-2 1 18 2 66
-3 -1 2 40 167
+1 0.2 0.3 1.5
+0.1 1 -0.3 0.8
+-0.1 -0.2 1 0.7

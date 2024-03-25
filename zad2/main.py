@@ -9,7 +9,6 @@ print(text0)
 while True:
     wybor1 = input(text1)
 
-    x0 = [1, 1, 1, 1]
     coefficients = []
     constants = []
     newX0 = []
@@ -42,7 +41,8 @@ while True:
             break
         case _:
             raise Exception("Niepoprawny pierwszy wybor")
-
+    equetionCounter = len(constants)
+    x0 = [1] * equetionCounter
     gigaMatrix = mf.createMatrix(coefficients, constants)
     wybor2 = input(text2)
 
@@ -57,7 +57,7 @@ while True:
         case _:
             raise Exception("Niepoprawny drugi wybor")
 
-    mowaKoncowa = "**Obliczone rozwiazania:\n\t{}\n**Dokladnosc dla kazdego rozwiazania:\n\t{}\n**Liczba iteracji: {}\n".format(newX0,precisions,counter)
+    mowaKoncowa = "\n\n\t\t\tOUTPUT\n**Obliczone rozwiazania:\n\t{}\n**Dokladnosc dla kazdego rozwiazania:\n\t{}\n**Liczba iteracji:\n\t{}\n\n".format(newX0,precisions,counter)
     print(mowaKoncowa)
 
 print("\nMilego dnia!")
