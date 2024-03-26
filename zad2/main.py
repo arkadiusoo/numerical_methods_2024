@@ -2,8 +2,8 @@ import myFunctions as mf
 
 text0 = "\t\t***Witaj w programie do rozwiazywania rownan nieliniowych metoda Gaussa-Seidela***"
 text1 = "Wybierz w metode w jaki sposob chcesz wprowadzic dane:\n\t1 - z pliku\n\t2 - recznie wprowadze\n\t3 - zakoncz program\nTwoj wybor: "
-text2 = "Wybierz metode zakonczenia algorytmu:\n\t1 - iteracyjnie\n\t2 - dokladnosc\nTwoj wybor: "
-text3 = "Niestety, nie jest to macierz diagonalna, sprobuje ją przeksztalcic.\n\n"
+text2 = "Wybierz metode zakonczenia algorytmu:\n\t1 - iteracyjnie\n\t2 - dokladnosc\n\t3 - pelen pakiet\nTwoj wybor: "
+text3 = "Niestety, nie jest to macierz diagonalnie dominujaca, sprobuje ją przeksztalcic."
 
 print(text0)
 while True:
@@ -36,7 +36,6 @@ while True:
             break
         case _:
             raise Exception("Niepoprawny pierwszy wybor")
-
     equetionCounter = len(constants)
     x0 = [1] * equetionCounter
     gigaMatrix = mf.createMatrix(coefficients, constants)
@@ -56,19 +55,57 @@ while True:
         case "1":
             iterations = int(input("Podaj ilsoc iteracji, po ktorych algorytm ma sie zatrzymac: "))
             newX0,precisions,counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0,iterations)
+            if flag == False:
+                mowaKoncowa1 = "\n\n\t\t\tOUTPUT\nPodany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
+                    newX0, precisions, counter)
+                print(mowaKoncowa1)
+            else:
+                mowaKoncowa2 = "\n\n\t\t\tOUTPUT\nObliczone rozwiazania:\n\t{}\nDokladnosc dla kazdego rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
+                    newX0, precisions, counter)
+                print(mowaKoncowa2)
+            print("**Macierz:")
+            print(gigaMatrix)
 
         case "2":
             precision = float(input("Podaj dokladnosc, po osiagnieciu ktorej algorytm ma sie zatrzymac: "))
-            newX0, precisions, counter,flag = mf.precisionGaussSeidelMethod(gigaMatrix, x0, precision)
+            newX0, precisions, counter,flag = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
             if flag == False:
-                print("Podany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia.")
+                mowaKoncowa1 = "\n\n\t\t\tOUTPUT\nPodany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\n*iczba iteracji:\n\t{}\n\n".format(
+                    newX0, precisions, counter)
+                print(mowaKoncowa1)
+            else:
+                mowaKoncowa2 = "\n\n\t\t\tOUTPUT\nObliczone rozwiazania:\n\t{}\nDokladnosc dla kazdego rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
+                    newX0, precisions, counter)
+                print(mowaKoncowa2)
+            print("**Macierz:")
+            print(gigaMatrix)
+        case "3":
+            iterations = int(input("Podaj ilsoc iteracji, po ktorych algorytm ma sie zatrzymac: "))
+            precision = float(input("Podaj dokladnosc, po osiagnieciu ktorej algorytm ma sie zatrzymac: "))
+
+            #iteracje
+            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
+            #precyzja metryka L1
+            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
+            #precyzja metryka Euklidesowa
+            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0, precision)
+            #precyzja metryka Manhattan
+            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0,
+                                                                                                 precision)
+            print("\n\n\t\t\tOUTPUT")
+            if flag == False:
+                print("Podany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia")
+            print("\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(newX0, precisions, counter))
+            print("\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(newX0L1, precisionsL1, counterL1))
+            print("\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(newX0Euk, precisionsEuk, counterEuk))
+            print("\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(newX0Man, precisionsMan, counterMan))
+
         case _:
             raise Exception("Niepoprawny drugi wybor")
 
-    mowaKoncowa = "\n\n\t\t\tOUTPUT\n**Obliczone rozwiazania:\n\t{}\n**Dokladnosc dla kazdego rozwiazania:\n\t{}\n**Liczba iteracji:\n\t{}\n\n".format(newX0,precisions,counter)
-    print(mowaKoncowa)
-    print("**Macierz:")
-    print(gigaMatrix)
+
+    
+
 
 print("\nMilego dnia!")
 

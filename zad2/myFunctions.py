@@ -1,3 +1,4 @@
+import math
 from copy import deepcopy
 
 
@@ -84,8 +85,8 @@ def iterativeGaussSeidelMethod(gigaMatrix, x0, iterations):
     precisions = getPrecisions(oldX0, newX0)
     return newX0,precisions,iterations
 
-def precisionGaussSeidelMethod(gigaMatrix, x0, precision):
-    print(x0)
+
+def precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision):
     oldX0 = deepcopy(x0)
     newX0 = theGaussSeidelMethod(gigaMatrix, x0)
     counter = 1
@@ -96,13 +97,70 @@ def precisionGaussSeidelMethod(gigaMatrix, x0, precision):
         oldX0 = deepcopy(newX0)
         newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
 
+        oldPrecisionAverage = newPrecisionAverage
         newPrecisionAverage = getAverage(getPrecisions(oldX0,newX0))
         #zabezpieczenie przed wpadnieciem w petle nieskonczona
-        if newPrecisionAverage > oldPrecisionAverage:
-            return oldX0, getPrecisions(oldX0, newX0), counter, False
+        if newPrecisionAverage > (oldPrecisionAverage*2) and oldPrecisionAverage != 0:
+            return oldX0, oldPrecisionAverage, counter, False
     precisions = getPrecisions(oldX0, newX0)
 
+    return newX0, newPrecisionAverage, counter, True
+
+def getEuklidesPrecission(oldX0, newX0):
+    sum = 0
+    for i in range(len(oldX0)):
+        sum += (oldX0[i] - newX0[i]) **2
+    sum = math.sqrt(sum)
+    return sum
+def precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0, precision):
+    oldX0 = deepcopy(x0)
+    newX0 = theGaussSeidelMethod(gigaMatrix, x0)
+    counter = 1
+    oldEuklidesPrecision = 0
+    newEuklidesPrecision = 0
+    while getEuklidesPrecission(oldX0,newX0) > precision:
+        counter += 1
+        oldX0 = deepcopy(newX0)
+        newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
+
+        oldEuklidesPrecision = newEuklidesPrecision
+        newEuklidesPrecision = getEuklidesPrecission(oldX0,newX0)
+        #zabezpieczenie przed wpadnieciem w petle nieskonczona
+        if newEuklidesPrecision > (oldEuklidesPrecision*2) and oldEuklidesPrecision != 0:
+            # print(oldEuklidesPrecision, newEuklidesPrecision)
+            return oldX0, getEuklidesPrecission(oldX0, newX0), counter, False
+    precisions = getEuklidesPrecission(oldX0, newX0)
+
     return newX0, precisions, counter, True
+
+def getManhattanPrecision(oldX0, newX0):
+    sum = 0
+    for i in range(len(oldX0)):
+        sum += abs(oldX0[i] - newX0[i])
+    return sum
+def precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0, precision):
+    oldX0 = deepcopy(x0)
+    newX0 = theGaussSeidelMethod(gigaMatrix, x0)
+    counter = 1
+    oldManhattanPrecision = 0
+    newManhattanPrecision = 0
+    while getManhattanPrecision(oldX0,newX0) > precision:
+        counter += 1
+        oldX0 = deepcopy(newX0)
+        newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
+
+        oldManhattanPrecision = newManhattanPrecision
+        newManhattanPrecision = getManhattanPrecision(oldX0,newX0)
+        # print(newManhattanPrecision)
+        # print(oldManhattanPrecision)
+        #zabezpieczenie przed wpadnieciem w petle nieskonczona
+        if newManhattanPrecision > (oldManhattanPrecision*2) and oldManhattanPrecision != 0:
+            # print(oldManhattanPrecision, newManhattanPrecision)
+            return oldX0, getManhattanPrecision(oldX0, newX0), counter, False
+    precisions = getManhattanPrecision(oldX0, newX0)
+
+    return newX0, precisions, counter, True
+
 
 def ifCatercornered(matrix):
     rows = len(matrix)
@@ -119,7 +177,6 @@ def ifCatercornered(matrix):
 def makeItCatercornered(matrix):
     unknownCounter = len(matrix)
     newMatrix = [[]] * unknownCounter
-    print(newMatrix)
     for i in range(unknownCounter):
         row = matrix[i]
         maxAbsValue = row[0]
@@ -141,10 +198,10 @@ def makeItCatercornered(matrix):
             return False
     return newMatrix
 
-testowyMatrix = [[3,-1,2,40],[1,6,1,-1],[8,1,2,3],[2,1,18,2]]
+# testowyMatrix = [[3,-1,2,40],[1,6,1,-1],[8,1,2,3],[2,1,18,2]]
 
-test = makeItCatercornered(testowyMatrix)
-print(test)
+# test = makeItCatercornered(testowyMatrix)
+# print(test)
 
 
 # coefficients, constants = readDataFromFile("data.txt")
@@ -158,4 +215,4 @@ print(test)
 #     print(newX0)
 #
 # print(iterativeGaussSeidelMethod(gigaMatrix, x0,2))
-# print(precisionGaussSeidelMethod(gigaMatrix, x0,0.0000000000001))
+# print(precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0,0.0000000000001))
