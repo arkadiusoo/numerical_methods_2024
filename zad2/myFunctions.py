@@ -88,16 +88,21 @@ def precisionGaussSeidelMethod(gigaMatrix, x0, precision):
     print(x0)
     oldX0 = deepcopy(x0)
     newX0 = theGaussSeidelMethod(gigaMatrix, x0)
-    print("old: {} \nnew: {}".format(oldX0, newX0))
-    print(getPrecisions(oldX0,newX0))
     counter = 1
+    oldPrecisionAverage = 0
+    newPrecisionAverage = 0
     while getAverage(getPrecisions(oldX0,newX0)) > precision:
         counter += 1
         oldX0 = deepcopy(newX0)
         newX0 = theGaussSeidelMethod(gigaMatrix, newX0)
-    precisions = getPrecisions(oldX0,newX0)
 
-    return newX0,precisions, counter
+        newPrecisionAverage = getAverage(getPrecisions(oldX0,newX0))
+        #zabezpieczenie przed wpadnieciem w petle nieskonczona
+        if newPrecisionAverage > oldPrecisionAverage:
+            return oldX0, getPrecisions(oldX0, newX0), counter, False
+    precisions = getPrecisions(oldX0, newX0)
+
+    return newX0, precisions, counter, True
 
 def ifCatercornered(matrix):
     rows = len(matrix)

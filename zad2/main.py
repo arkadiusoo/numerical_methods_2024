@@ -14,6 +14,7 @@ while True:
     newX0 = []
     precisions = []
     counter = []
+    flag = True
 
 
 
@@ -53,7 +54,7 @@ while True:
 
         case "2":
             precision = float(input("Podaj dokladnosc, po osiagnieciu ktorej algorytm ma sie zatrzymac: "))
-            newX0, precisions, counter = mf.precisionGaussSeidelMethod(gigaMatrix, x0, precision)
+            newX0, precisions, counter,flag = mf.precisionGaussSeidelMethod(gigaMatrix, x0, precision)
         case _:
             raise Exception("Niepoprawny drugi wybor")
 
