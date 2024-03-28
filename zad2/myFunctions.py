@@ -22,7 +22,8 @@ def createMatrix(coefficients, constants):
     gigaMatrix = []
     for i in range(rows):
         divisior = coefficients[i][i]
-
+        if divisior == 0:
+            divisior = 1
         temp = []
         for j in range(columns):
             value = (coefficients[i][j] / divisior) * (-1.0)
@@ -100,7 +101,7 @@ def precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision):
         oldPrecisionAverage = newPrecisionAverage
         newPrecisionAverage = getAverage(getPrecisions(oldX0,newX0))
         #zabezpieczenie przed wpadnieciem w petle nieskonczona
-        if newPrecisionAverage > (oldPrecisionAverage*2) and oldPrecisionAverage != 0:
+        if newPrecisionAverage > (oldPrecisionAverage) and oldPrecisionAverage != 0:
             return oldX0, oldPrecisionAverage, counter, False
     precisions = getPrecisions(oldX0, newX0)
 
@@ -126,7 +127,7 @@ def precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0, precision):
         oldEuklidesPrecision = newEuklidesPrecision
         newEuklidesPrecision = getEuklidesPrecission(oldX0,newX0)
         #zabezpieczenie przed wpadnieciem w petle nieskonczona
-        if newEuklidesPrecision > (oldEuklidesPrecision*2) and oldEuklidesPrecision != 0:
+        if newEuklidesPrecision > (oldEuklidesPrecision) and oldEuklidesPrecision != 0:
             # print(oldEuklidesPrecision, newEuklidesPrecision)
             return oldX0, getEuklidesPrecission(oldX0, newX0), counter, False
     precisions = getEuklidesPrecission(oldX0, newX0)
@@ -154,7 +155,7 @@ def precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0, precision):
         # print(newManhattanPrecision)
         # print(oldManhattanPrecision)
         #zabezpieczenie przed wpadnieciem w petle nieskonczona
-        if newManhattanPrecision > (oldManhattanPrecision*2) and oldManhattanPrecision != 0:
+        if newManhattanPrecision > (oldManhattanPrecision) and oldManhattanPrecision != 0:
             # print(oldManhattanPrecision, newManhattanPrecision)
             return oldX0, getManhattanPrecision(oldX0, newX0), counter, False
     precisions = getManhattanPrecision(oldX0, newX0)

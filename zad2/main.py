@@ -2,13 +2,12 @@ import myFunctions as mf
 
 text0 = "\t\t***Witaj w programie do rozwiazywania rownan nieliniowych metoda Gaussa-Seidela***"
 text1 = "Wybierz w metode w jaki sposob chcesz wprowadzic dane:\n\t1 - z pliku\n\t2 - recznie wprowadze\n\t3 - zakoncz program\nTwoj wybor: "
-text2 = "Wybierz metode zakonczenia algorytmu:\n\t1 - iteracyjnie\n\t2 - dokladnosc\n\t3 - pelen pakiet\nTwoj wybor: "
+text2 = "Wybierz metode zakonczenia algorytmu:\n\t1 - iteracyjnie\n\t2 - dokladnosc\n\t3 - pelen pakiet\n\t4 - tajna sciezka\nTwoj wybor: "
 text3 = "Niestety, nie jest to macierz diagonalnie dominujaca, sprobuje ją przeksztalcic."
 
 print(text0)
 while True:
     wybor1 = input(text1)
-
     coefficients = []
     constants = []
     newX0 = []
@@ -99,6 +98,105 @@ while True:
             print("\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(newX0L1, precisionsL1, counterL1))
             print("\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(newX0Euk, precisionsEuk, counterEuk))
             print("\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(newX0Man, precisionsMan, counterMan))
+
+        case "4":
+            print("\n\n\t\t\tOUTPUT")
+            #precyzja 0.1
+            precision = 0.1
+            print("Dokladnosc: {}".format(precision))
+            # precyzja metryka L1
+            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
+            # precyzja metryka Euklidesowa
+            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0, precision)
+            # precyzja metryka Manhattan
+            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0, precision)
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0L1, precisionsL1, counterL1))
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0Euk, precisionsEuk, counterEuk))
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
+                    newX0Man, precisionsMan, counterMan))
+            print("************************************************************************************")
+
+            #precyzja 0.01
+            precision = 0.01
+            print("Dokladnosc: {}".format(precision))
+            # precyzja metryka L1
+            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
+            # precyzja metryka Euklidesowa
+            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0, precision)
+            # precyzja metryka Manhattan
+            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0, precision)
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0L1, precisionsL1, counterL1))
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0Euk, precisionsEuk, counterEuk))
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
+                    newX0Man, precisionsMan, counterMan))
+            print("************************************************************************************")
+
+
+            #precyzja 0.0001
+            precision = 0.0001
+            print("Dokladnosc: {}".format(precision))
+            # precyzja metryka L1
+            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
+            # precyzja metryka Euklidesowa
+            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0, precision)
+            # precyzja metryka Manhattan
+            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0, precision)
+
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0L1, precisionsL1, counterL1))
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0Euk, precisionsEuk, counterEuk))
+            print(
+                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
+                    newX0Man, precisionsMan, counterMan))
+            print("************************************************************************************")
+
+            # iteracje 1
+            iterations = 1
+            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
+            print(
+                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0, precisions, counter))
+
+            # iteracje 5
+            iterations = 5
+            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
+            print(
+                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0, precisions, counter))
+
+            # iteracje 10
+            iterations = 10
+            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
+            print(
+                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0, precisions, counter))
+
+            # iteracje 15
+            iterations = 15
+            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
+            print(
+                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
+                    newX0, precisions, counter))
+
+
+            if flag == False:
+                print("Podany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia")
+            break
+
+
 
         case _:
             raise Exception("Niepoprawny drugi wybor")
