@@ -35,9 +35,15 @@ def convert_polynomial(polynomial):
     simplified_expr = simplify(polynomial_expr)
     return simplified_expr
 
-def get_coefficient(polynomial):
+def get_coefficients(polynomial):
     # converts string polynomial to sympy polynomial expression
     new_polynomial = polynomial.as_poly()
     coeff = new_polynomial.all_coeffs()
     return coeff
 
+def horner (coeffs, x):
+    # coefficients starts from the highest power
+    output = 0
+    for i in range(len(coeffs)):
+        output = output * x + coeffs[i]
+    return output
