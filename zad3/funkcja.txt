@@ -1,5 +1,0 @@
-filozofia: 1 linijka - wyjasnienie; 2 - liczba wezlow 3 - przedzial 4 - funkcja 5 - wartosc x
-3
--4 5
-cos(x)
-1.6
