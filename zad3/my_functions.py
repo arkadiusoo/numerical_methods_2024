@@ -65,7 +65,7 @@ def accuracy(nodes_x, nodes_y, x):
         output *= (x - element)
     return output
 
-def plot_expression(original_expr_str, interpolated_expr_str, x_range):
+def plot_expression(original_expr_str, interpolated_expr_str, x_range,node_x,node_y):
     x = symbols('x')
 
     original_expr = sympify(original_expr_str)
@@ -83,9 +83,22 @@ def plot_expression(original_expr_str, interpolated_expr_str, x_range):
     plt.plot(x_values, original_y_values, label='oryginalna funkcja: ' + original_expr_str)
     plt.plot(x_values, interpolated_y_values, label='wielomian interpolacyjny: ' + interpolated_expr_str,
              linestyle='--')
+    plt.scatter(node_x, node_y, color='red', zorder=5, label='węzły interpolacji')
+
     plt.title('Porównanie funkcji oryginalnej i interpolowanej')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.grid(True)
     plt.legend()
     plt.show()
+
+def get_nodes(amount_of_nodes,a,b):
+    h = abs(b-a) / (amount_of_nodes-1)
+    nodes = []
+    for i in range(amount_of_nodes):
+        nodes.append(a + i*h)
+    return nodes
+
+
+
+
