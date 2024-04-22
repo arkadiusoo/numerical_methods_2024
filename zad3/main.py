@@ -1,209 +1,101 @@
 import my_functions as mf
 
 text0 = "\t\t***Witaj w programie do interpolowania funkcji metoda Newtona***"
-text1 = "Wybierz w metode w jaki sposob chcesz wprowadzic dane:\n\t1 - z pliku\n\t2 - recznie wprowadze\n\t3 - zakoncz program\nTwoj wybor: "
-text2 = "Wybierz metode zakonczenia algorytmu:\n\t1 - iteracyjnie\n\t2 - dokladnosc\n\t3 - pelen pakiet\n\t4 - tajna sciezka\nTwoj wybor: "
-text3 = "Niestety, nie jest to macierz diagonalnie dominujaca, sprobuje ją przeksztalcic."
+text1 = "Wybierz w metode w jaki sposob chcesz wprowadzic dane:\n\t1 - z pliku\n\t2 - recznie wprowadze\n\t3 - sprawko\n\t4 - zakoncz program\nTwoj wybor: "
 
 print(text0)
 while True:
     wybor1 = input(text1)
 
-    flag = True
+
 
     match wybor1:
         case "1":
-            coefficients, constants = mf.readDataFromFile("data.txt")
+            node_amount, a,b,original_expr,x_value = mf.read_file("./funkcja.txt")
+            nodes_x = mf.get_nodes(node_amount, a, b)
+            nodes_y = mf.get_nodes_values(nodes_x, original_expr)
+            difference_quotient = mf.difference_quotient(nodes_x, nodes_y)
+            netwot_polynomial = mf.get_polynomial_newton_interpolation(nodes_x, nodes_y)
+            converted_polynomial = mf.convert_polynomial(netwot_polynomial)
+            coeffs = mf.get_coefficients(converted_polynomial)
+            accuracy = mf.accuracy(nodes_x, nodes_y, x_value)
+            y_value_4_x_value = mf.horner(coeffs, x_value)
+            mowa_koncowa = "**********\nFunkcja interpolowana: {}\nWielomian interpolacyjny: {}\nPrzedzial: {}\nLiczba wezlow: {}\nWartosc obliczona za pomoca interpolacji dla punktu {}: {}\t o bledzie: {}\n\n".format(
+                original_expr, converted_polynomial, [a, b], node_amount, x_value, y_value_4_x_value, accuracy,
+                accuracy)
+            print(mowa_koncowa)
+            mf.plot_expression(original_expr, converted_polynomial, [a, b], nodes_x, nodes_y, x_value,
+                               y_value_4_x_value)
         case "2":
-            coefficientsCount = int(input("Podaj zadana ilosc niewiadomych: "))
-            for i in range(coefficientsCount):
-                print("\t\tWiersz {}: ".format(i + 1))
-                temp = []
-                for j in range(coefficientsCount):
-                    value = float(input("Podaj wspolczynnik przy x^{}: ".format(coefficientsCount - j)))
-                    temp.append(value)
-                value2 = float(input("Podaj wspolczynnik przy x^{}: ".format(coefficientsCount - coefficientsCount)))
-                coefficients.append(temp)
-                constants.append(value2)
-        case "3":
+            nodes_x = []
+            nodes_y = []
+            original_expr = ""
+            x_value = 0
+            node_amount = int(input("Podaj zadana ilosc wezlow: "))
+            a = int(input("Podaj poczatek przedzialu: "))
+            b = int(input("Podaj koniec przedzialu: "))
+            original_expr = input("Podaj funkcje, ktora chcesz interpolowac: ")
+            x_value = float(input("Podaj wartosc x, dla ktorego chcesz interpolowac: "))
+            nodes_x = mf.get_nodes(node_amount, a, b)
+            nodes_y = mf.get_nodes_values(nodes_x,original_expr)
+            difference_quotient = mf.difference_quotient(nodes_x, nodes_y)
+            netwot_polynomial = mf.get_polynomial_newton_interpolation(nodes_x, nodes_y)
+            converted_polynomial = mf.convert_polynomial(netwot_polynomial)
+            coeffs = mf.get_coefficients(converted_polynomial)
+            accuracy = mf.accuracy(nodes_x, nodes_y, x_value)
+            y_value_4_x_value = mf.horner(coeffs, x_value)
+            mowa_koncowa = "**********\nFunkcja interpolowana: {}\nWielomian interpolacyjny: {}\nPrzedzial: {}\nLiczba wezlow: {}\nWartosc obliczona za pomoca interpolacji dla punktu {}: {}\t o bledzie: {}\n\n".format(original_expr,converted_polynomial,[a,b],node_amount,x_value,y_value_4_x_value,accuracy,accuracy)
+            print(mowa_koncowa)
+            mf.plot_expression(original_expr, converted_polynomial, [a,b],nodes_x, nodes_y,x_value,y_value_4_x_value)
+        case '3':
+                funkcje = ['sin(x)','cos(x)', 'Abs(x)', 'x+6', 'abs(sin(x))', '3*x**3+2*x+15']
+                liczby_wezlow = [2,3,4]
+                przedzial1 = [-3,4]
+                przedzial2 = [-7,10]
+                punkt1 = -1.2
+                punkt2 = -4.7
+
+                for funkcja in funkcje:
+                    for l_w in liczby_wezlow:
+                        # zestaw1
+                        nodes_x1 = mf.get_nodes(l_w, przedzial1[0], przedzial1[1])
+                        nodes_y1 = mf.get_nodes_values(nodes_x1,funkcja)
+                        d_q1 = mf.difference_quotient(nodes_x1, nodes_y1)
+                        n_t1 = mf.get_polynomial_newton_interpolation(nodes_x1, nodes_y1)
+                        c_p1 = mf.convert_polynomial(n_t1)
+                        coeffs1 = mf.get_coefficients(c_p1)
+                        accuracy1 = mf.accuracy(nodes_x1, nodes_y1, punkt1)
+                        punkt1_val = mf.horner(coeffs1, punkt1)
+                        mowa_koncowa = "**********\nFunkcja interpolowana: {}\nWielomian interpolacyjny: {}\nPrzedzial: {}\nLiczba wezlow: {}\nWartosc obliczona za pomoca interpolacji dla punktu {}: {}\t o bledzie: {}\n\n".format(
+                            funkcja, c_p1, przedzial1,l_w, punkt1, punkt1_val, accuracy1)
+                        print(mowa_koncowa)
+                        mf.plot_expression(funkcja,c_p1,przedzial1,nodes_x1,nodes_y1,punkt1,punkt1_val)
+
+                        # zestaw2
+                        nodes_x2 = mf.get_nodes(l_w, przedzial2[0], przedzial2[1])
+                        nodes_y2 = mf.get_nodes_values(nodes_x2, funkcja)
+                        nodes_x2 = mf.get_nodes(l_w, przedzial2[0], przedzial2[1])
+                        nodes_y2 = mf.get_nodes_values(nodes_x2,funkcja)
+                        d_q2 = mf.difference_quotient(nodes_x2, nodes_y2)
+                        n_t2 = mf.get_polynomial_newton_interpolation(nodes_x2, nodes_y2)
+                        c_p2 = mf.convert_polynomial(n_t2)
+                        coeffs2 = mf.get_coefficients(c_p2)
+                        accuracy2 = mf.accuracy(nodes_x2, nodes_y2, punkt2)
+                        punkt2_val = mf.horner(coeffs2, punkt2)
+                        mowa_koncowa = "**********\nFunkcja interpolowana: {}\nWielomian interpolacyjny: {}\nPrzedzial: {}\nLiczba wezlow: {}\nWartosc obliczona za pomoca interpolacji dla punktu {}: {}\t o bledzie: {}\n\n".format(
+                            funkcja, c_p2, przedzial2,l_w, punkt2, punkt2_val, accuracy2)
+                        print(mowa_koncowa)
+                        mf.plot_expression(funkcja,c_p2,przedzial2,nodes_x2,nodes_y2,punkt2,punkt2_val)
+                    temp = input("kliknij enter aby przejsc do nastepnej funkcji")
+
+
+        case "4":
             break
         case _:
             raise Exception("Niepoprawny pierwszy wybor")
-    equetionCounter = len(constants)
-    x0 = [1] * equetionCounter
-    gigaMatrix = mf.createMatrix(coefficients, constants)
 
-    if mf.ifCatercornered(coefficients) == False:
-        print(text3)
-        temp = mf.makeItCatercornered(gigaMatrix)
-        if temp != False:
-            print("Udalo sie przeksztalcic podana macierz do macierzy diagonalnie dominujaca!")
-            gigaMatrix = temp
-        else:
-            print("Nie udalo sie przeksztalcic podanej macierzy, ale i tak sprobujemy rozwiazac te rowania.")
 
-    wybor2 = input(text2)
 
-    match wybor2:
-        case "1":
-            iterations = int(input("Podaj ilsoc iteracji, po ktorych algorytm ma sie zatrzymac: "))
-            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
-            if flag == False:
-                mowaKoncowa1 = "\n\n\t\t\tOUTPUT\nPodany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
-                    newX0, precisions, counter)
-                print(mowaKoncowa1)
-            else:
-                mowaKoncowa2 = "\n\n\t\t\tOUTPUT\nObliczone rozwiazania:\n\t{}\nDokladnosc dla kazdego rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
-                    newX0, precisions, counter)
-                print(mowaKoncowa2)
-            print("**Macierz:")
-            print(gigaMatrix)
 
-        case "2":
-            precision = float(input("Podaj dokladnosc, po osiagnieciu ktorej algorytm ma sie zatrzymac: "))
-            newX0, precisions, counter, flag = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
-            if flag == False:
-                mowaKoncowa1 = "\n\n\t\t\tOUTPUT\nPodany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\n*iczba iteracji:\n\t{}\n\n".format(
-                    newX0, precisions, counter)
-                print(mowaKoncowa1)
-            else:
-                mowaKoncowa2 = "\n\n\t\t\tOUTPUT\nObliczone rozwiazania:\n\t{}\nDokladnosc dla kazdego rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
-                    newX0, precisions, counter)
-                print(mowaKoncowa2)
-            print("**Macierz:")
-            print(gigaMatrix)
-        case "3":
-            iterations = int(input("Podaj ilsoc iteracji, po ktorych algorytm ma sie zatrzymac: "))
-            precision = float(input("Podaj dokladnosc, po osiagnieciu ktorej algorytm ma sie zatrzymac: "))
-
-            # iteracje
-            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
-            # precyzja metryka L1
-            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
-            # precyzja metryka Euklidesowa
-            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0,
-                                                                                                       precision)
-            # precyzja metryka Manhattan
-            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0,
-                                                                                                        precision)
-            print("\n\n\t\t\tOUTPUT")
-            if flag == False:
-                print("Podany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia")
-            print(
-                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0, precisions, counter))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0L1, precisionsL1, counterL1))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0Euk, precisionsEuk, counterEuk))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
-                    newX0Man, precisionsMan, counterMan))
-
-        case "4":
-            print("\n\n\t\t\tOUTPUT")
-            # precyzja 0.1
-            precision = 0.1
-            print("Dokladnosc: {}".format(precision))
-            # precyzja metryka L1
-            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
-            # precyzja metryka Euklidesowa
-            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0,
-                                                                                                       precision)
-            # precyzja metryka Manhattan
-            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0,
-                                                                                                        precision)
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0L1, precisionsL1, counterL1))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0Euk, precisionsEuk, counterEuk))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
-                    newX0Man, precisionsMan, counterMan))
-            print("************************************************************************************")
-
-            # precyzja 0.01
-            precision = 0.01
-            print("Dokladnosc: {}".format(precision))
-            # precyzja metryka L1
-            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
-            # precyzja metryka Euklidesowa
-            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0,
-                                                                                                       precision)
-            # precyzja metryka Manhattan
-            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0,
-                                                                                                        precision)
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0L1, precisionsL1, counterL1))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0Euk, precisionsEuk, counterEuk))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
-                    newX0Man, precisionsMan, counterMan))
-            print("************************************************************************************")
-
-            # precyzja 0.0001
-            precision = 0.0001
-            print("Dokladnosc: {}".format(precision))
-            # precyzja metryka L1
-            newX0L1, precisionsL1, counterL1, flagL1 = mf.precisionGaussSeidelMethodL1Metric(gigaMatrix, x0, precision)
-            # precyzja metryka Euklidesowa
-            newX0Euk, precisionsEuk, counterEuk, flagEuk = mf.precisionGaussSeidelMethodEuklidesMetric(gigaMatrix, x0,
-                                                                                                       precision)
-            # precyzja metryka Manhattan
-            newX0Man, precisionsMan, counterMan, flagMan = mf.precisionGaussSeidelMethodManhattanMetric(gigaMatrix, x0,
-                                                                                                        precision)
-
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka L1:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0L1, precisionsL1, counterL1))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Euklidesowa:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0Euk, precisionsEuk, counterEuk))
-            print(
-                "\t\tRozwiazanie dla wersji z dokladnoscia z metryka Manhattan:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}\n\n".format(
-                    newX0Man, precisionsMan, counterMan))
-            print("************************************************************************************")
-
-            # iteracje 1
-            iterations = 1
-            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
-            print(
-                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0, precisions, counter))
-
-            # iteracje 5
-            iterations = 5
-            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
-            print(
-                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0, precisions, counter))
-
-            # iteracje 10
-            iterations = 10
-            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
-            print(
-                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0, precisions, counter))
-
-            # iteracje 15
-            iterations = 15
-            newX0, precisions, counter = mf.iterativeGaussSeidelMethod(gigaMatrix, x0, iterations)
-            print(
-                "\t\tRozwiazanie dla iteracyjnej wersji:\nObliczone rozwiazania:\n\t{}\nDokladnosc rozwiazania:\n\t{}\nLiczba iteracji:\n\t{}".format(
-                    newX0, precisions, counter))
-
-            if flag == False:
-                print("Podany uklad rownan nie jest zbiezny, podany output jest ostatnia obliczona wartoscia")
-            break
-
-        case _:
-            raise Exception("Niepoprawny drugi wybor")
 
 print("\nMilego dnia!")
