@@ -1,7 +1,13 @@
-Repozytorium zawierające realizację zadań z przedmiotu Metody Numeryczne 🧮 w roku akademickim 2023/24.  
+# Numerical Methods Repository 🧮 for the Academic Year 2023/24
 
-Aktualnie w repozytorium zanjduje się ukończone zadanie 1: implementacja metod bisekcji i stycznych do znajdowania miejsc zerowych równań nieliniowych, z możliwością wyboru funkcji i kryterium zatrzymania algorytmu ✅
+This repository contains projects from the Numerical Methods course.
 
-Dodatkowo, zadanie 2 jest w fazie rozwoju: implementacja metody iteracyjnej Gaussa-Seidla dla układów równań liniowych 🚧
+Currently, the repository includes:
+ - Completed Task 1: Implementation of bisection and tangent methods for finding roots of nonlinear equations.
+ - Completed Task 2: Implementation of the iterative Gauss-Seidel method for solving systems of linear equations.
+ - Completed Task 3: Implementation of Newton's interpolation method for equidistant nodes, calculating values of interpolating polynomials.
+ - [In progress] Task 4: Implementation of two numerical integration methods:
+   - Composite Newton-Cotes quadrature based on three nodes (Simpson's rule).
+   - Gauss quadrature with Legendre polynomials on the interval [a, b).
 
-Realizacja opiera się na języku Python 🐍 z wykorzystaniem bibliotek math i matplotlib.
+Developments are based on Python 🐍, utilizing libraries such as math, matplotlib, sympy, and numpy.
