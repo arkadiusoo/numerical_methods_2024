@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 def horner(coeffs, x):
     result = 0
@@ -85,3 +86,23 @@ def graph(original,approx,a,b):
     plt.plot(x_values, approx_values, label='Approximated Function', linestyle='--')
     plt.legend()
     plt.show()
+
+
+def f1(x):
+    # Prosta funkcja wielomianowa: x^2 - 2x + 1
+    return x**2 - 2*x + 1
+def f2(x):
+    # Prosta funkcja trygonometryczna: sin(x)
+    return math.sin(x)
+def f3(x):
+    # Prosta funkcja wykładnicza: e^x
+    return math.exp(x)
+def f4(x):
+    # Bardziej skomplikowana funkcja wielomianowa: x^3 - 2x^2 + x - 5
+    return x**3 - 2*x**2 + x - 5
+def f5(x):
+    # Skomplikowana funkcja trygonometryczna: sin(x^2) + cos(x)
+    return math.sin(x**2) + math.cos(x)
+def f6(x):
+    # Skomplikowana funkcja wykładnicza: e^(sin(x)) + e^(-x)
+    return math.exp(math.sin(x)) + math.exp(-x)
