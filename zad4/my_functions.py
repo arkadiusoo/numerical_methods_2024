@@ -1,4 +1,5 @@
 import math
+import sympy as sp
 
 def calculate_simpson(function, a, b, number_of_subintervals):
     h = (b - a) / number_of_subintervals
@@ -22,7 +23,7 @@ def composite_simpson_with_precision(function, a, b, initial_subintervals, toler
         new_result = calculate_simpson(function, a, b, number_of_subintervals)
 
         if abs(new_result - current_result) < tolerance:
-            return new_result
+            return new_result, number_of_subintervals
         current_result = new_result
 
 
@@ -49,7 +50,7 @@ def gauss_legendre(f, a, b, n):
         integral += weights[i] * f(x)
 
     integral *= 0.5 * (b - a)
-    return integral
+    return integral, n
 
 def f1(x):
     # Prosta funkcja wielomianowa: x^2 - 2x + 1
@@ -69,3 +70,25 @@ def f5(x):
 def f6(x):
     # Skomplikowana funkcja wykładnicza: e^(sin(x)) + e^(-x)
     return math.exp(math.sin(x)) + math.exp(-x)
+
+def create_function_from_user_input():
+    # Pozwala użytkownikowi wpisać wyrażenie matematyczne
+    user_input = input("Wprowadź swoją funkcję używając 'x' jako zmiennej (np. 'x**2 + sin(x)'): ")
+
+    # Definiuje symbol x
+    x = sp.symbols('x')
+
+    # Próba parsowania wprowadzonego wyrażenia
+    try:
+        # Parse the input using sympy
+        user_expr = sp.sympify(user_input)
+    except sp.SympifyError:
+        print("Wystąpił błąd podczas parsowania wyrażenia.")
+        return None
+
+    # Definicja funkcji Pythona
+    def user_defined_function(x_value):
+        # Wylicza wartość funkcji dla konkretnego x
+        return user_expr.subs(x, x_value)
+
+    return user_defined_function
