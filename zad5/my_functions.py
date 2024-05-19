@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+import sympy as sp
 
 def horner(coeffs, x):
     result = 0
@@ -77,14 +78,35 @@ def approximate_function(func, degree, a, b, nodes):
 
     return approx_poly
 
-def graph(original,approx,a,b):
-    x_values = np.linspace(a, b, 300)
-    original_values = [original(x) for x in x_values]
-    approx_values = [approx(x) for x in x_values]
 
+def calculate_approximation_error(func, approx_func, a, b, n): #RMSE
+    def error_function(x):
+        return (func(x) - approx_func(x)) ** 2
+
+    error_integral = gauss_legendre(error_function, a, b, n)
+    return math.sqrt(error_integral)
+
+
+def graph(func, approx_func, a, b, error,degree):
+    x_values = np.linspace(a, b, 300)
+    original_values = [func(x) for x in x_values]
+    approx_values = [approx_func(x) for x in x_values]
+
+    plt.figure(figsize=(10, 6))
     plt.plot(x_values, original_values, label='Original Function')
     plt.plot(x_values, approx_values, label='Approximated Function', linestyle='--')
     plt.legend()
+    plt.title("Function Approximation [degree: {}]".format(degree))
+    plt.xlabel("x")
+    plt.ylabel("f(x)")
+    plt.grid(True)
+
+    # Dodaj tekst z błędem aproksymacji
+    plt.text(0.95, 0.01, 'Approximation Error (RMSE): {}'.format(error),
+             verticalalignment='bottom', horizontalalignment='right',
+             transform=plt.gca().transAxes,  # Wykorzystanie osi wykresu do pozycjonowania tekstu
+             color='red', fontsize=12)
+
     plt.show()
 
 
@@ -106,3 +128,26 @@ def f5(x):
 def f6(x):
     # Skomplikowana funkcja wykładnicza: e^(sin(x)) + e^(-x)
     return math.exp(math.sin(x)) + math.exp(-x)
+
+def create_function_from_user_input():
+    # Pozwala użytkownikowi wpisać wyrażenie matematyczne
+    user_input = input("Wprowadź swoją funkcję używając 'x' jako zmiennej (np. 'x**2 + sin(x)'): ")
+
+    # Definiuje symbol x
+    x = sp.symbols('x')
+
+    # Próba parsowania wprowadzonego wyrażenia
+    try:
+        # Parse the input using sympy
+        user_expr = sp.sympify(user_input)
+    except sp.SympifyError:
+        print("Wystąpił błąd podczas parsowania wyrażenia.")
+        return None
+
+    # Definicja funkcji Pythona
+    def user_defined_function(x_value):
+        # Wylicza wartość funkcji dla konkretnego x
+        return user_expr.subs(x, x_value)
+
+    return user_defined_function
+

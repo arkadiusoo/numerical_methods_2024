@@ -1,7 +1,7 @@
 import my_functions as mf
 import os
 
-text0 = "\t\t***Witaj w programie do interpolowania funkcji metoda Newtona***"
+text0 = "\t\t***Witaj w programie liczącym całki metodą numeryczną***"
 text1 = "Wybierz w metode w jaki sposob chcesz wprowadzic dane:\n\t1 - recznie wprowadze\n\t2 - sprawko\n\t3 - zakoncz program\nTwoj wybor: "
 newtonText = "\n***Wynik całkowania \n\t- dla metody: Newtona-Cotesa \n\t- na przedziale: od {} do {}\n\t- z dokladnoscia: {}\n\t- z liczba podprzedzialow: {}\n wynosi: {}"
 gaussText = "\n***Wynik całkowania \n\t- dla metody: Gaussa-Laguerre’a\n\t- na przedziale: od {} do {} \n\t- z liczba wezlow: {}\n wynosi: {}"
