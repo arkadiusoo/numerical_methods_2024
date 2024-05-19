@@ -43,49 +43,65 @@ while True:
             nodes1 = 2
             nodes2 = 5
 
-            newtonOutput1,subintervals1 = mf.composite_simpson_with_precision(mf.f1, a1, b1, 1, tolerance1)
-            gaussOutput1, n = mf.gauss_legendre(mf.f1, a1, b1, nodes1)
-
-            newtonOutput2,subintervals2 = mf.composite_simpson_with_precision(mf.f2, a2, b2, 1, tolerance2)
-            gaussOutput2, n = mf.gauss_legendre(mf.f2, a2, b2, nodes2)
-
-            newtonOutput3, subintervals3 = mf.composite_simpson_with_precision(mf.f3, a1, b1, 1, tolerance1)
-            gaussOutput3, n = mf.gauss_legendre(mf.f3, a1, b1, nodes1)
-
-            newtonOutput4, subintervals4 = mf.composite_simpson_with_precision(mf.f4, a2, b2, 1, tolerance2)
-            gaussOutput4, n = mf.gauss_legendre(mf.f4, a2, b2, nodes2)
-
-            newtonOutput5, subintervals5 = mf.composite_simpson_with_precision(mf.f5, a1, b1, 1, tolerance1)
-            gaussOutput5, n = mf.gauss_legendre(mf.f5, a1, b1, nodes1)
-
-            newtonOutput6, subintervals6 = mf.composite_simpson_with_precision(mf.f6, a2, b2, 1, tolerance2)
-            gaussOutput6, n = mf.gauss_legendre(mf.f6, a2, b2, nodes2)
-
-            print("\n***1***")
-            print(newtonText.format(a1,b1,tolerance1,subintervals1, newtonOutput1))
-            print(gaussText.format(a1,b1,nodes1,gaussOutput1))
-
-            print("\n***2***")
+            print("\n***1 - newton***")
+            print(newtonText.format(a1, b1, tolerance1, subintervals1, newtonOutput1))
+            print("\n***2 - newton***")
             print(newtonText.format(a2, b2, tolerance2, subintervals2, newtonOutput2))
-            print(gaussText.format(a2, b2, nodes2, gaussOutput2))
-
-            print("\n***3***")
+            print("\n***3 - newton***")
             print(newtonText.format(a1, b1, tolerance1, subintervals3, newtonOutput3))
-            print(gaussText.format(a1, b1, nodes1, gaussOutput3))
-
-            print("\n***4***")
+            print("\n***4 - newton***")
             print(newtonText.format(a2, b2, tolerance2, subintervals4, newtonOutput4))
-            print(gaussText.format(a2, b2, nodes2, gaussOutput4))
-
-            print("\n***5***")
+            print("\n***5 - newton***")
             print(newtonText.format(a1, b1, tolerance1, subintervals5, newtonOutput5))
-            print(gaussText.format(a1, b1, nodes1, gaussOutput5))
-
-            print("\n***6***")
+            print("\n***6 - newton***")
             print(newtonText.format(a2, b2, tolerance2, subintervals6, newtonOutput6))
-            print(gaussText.format(a2, b2, nodes2, gaussOutput6))
+            print("\n***koniec - newton***\n\n")
+            for i in range(2,6):
+                nodes1 = i
+                print("*************nodes {}".format(nodes1))
+                newtonOutput1,subintervals1 = mf.composite_simpson_with_precision(mf.f1, a1, b1, 1, tolerance1)
+                gaussOutput1, n = mf.gauss_legendre(mf.f1, a1, b1, nodes1)
 
-            print("\n***koniec***\n\n")
+                newtonOutput2,subintervals2 = mf.composite_simpson_with_precision(mf.f2, a2, b2, 1, tolerance2)
+                gaussOutput2, n = mf.gauss_legendre(mf.f2, a2, b2, nodes1)
+
+                newtonOutput3, subintervals3 = mf.composite_simpson_with_precision(mf.f3, a1, b1, 1, tolerance1)
+                gaussOutput3, n = mf.gauss_legendre(mf.f3, a1, b1, nodes1)
+
+                newtonOutput4, subintervals4 = mf.composite_simpson_with_precision(mf.f4, a2, b2, 1, tolerance2)
+                gaussOutput4, n = mf.gauss_legendre(mf.f4, a2, b2, nodes1)
+
+                newtonOutput5, subintervals5 = mf.composite_simpson_with_precision(mf.f5, a1, b1, 1, tolerance1)
+                gaussOutput5, n = mf.gauss_legendre(mf.f5, a1, b1, nodes1)
+
+                newtonOutput6, subintervals6 = mf.composite_simpson_with_precision(mf.f6, a2, b2, 1, tolerance2)
+                gaussOutput6, n = mf.gauss_legendre(mf.f6, a2, b2, nodes1)
+
+                print("\n***1 - gauss***")
+
+                print(gaussText.format(a1,b1,nodes1,gaussOutput1))
+
+                print("\n***2 - gauss***")
+
+                print(gaussText.format(a2, b2, nodes1, gaussOutput2))
+
+                print("\n***3 - gauss***")
+
+                print(gaussText.format(a1, b1, nodes1, gaussOutput3))
+
+                print("\n***4 - gauss***")
+
+                print(gaussText.format(a2, b2, nodes1, gaussOutput4))
+
+                print("\n***5 - gauss***")
+
+                print(gaussText.format(a1, b1, nodes1, gaussOutput5))
+
+                print("\n***6 - gauss***")
+
+                print(gaussText.format(a2, b2, nodes1, gaussOutput6))
+
+                print("\n***koniec - gauss***\n\n")
 
         case "3":
             break
