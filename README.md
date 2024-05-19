@@ -10,4 +10,5 @@ Currently, the repository includes:
    - Composite Newton-Cotes quadrature based on three nodes (Simpson's rule).
    - Gauss quadrature with Legendre polynomials on the interval [a, b).
  - Completed Task 5: Implementation of aproximation using Legendre polynomials.
+
 Developments are based on Python 🐍, utilizing libraries such as math, matplotlib, sympy, and numpy.
