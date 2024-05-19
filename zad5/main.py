@@ -68,8 +68,4 @@ while True:
             else:
                 os.system("clear")
 
-
-
-
-
 print("\nMilego dnia!")
