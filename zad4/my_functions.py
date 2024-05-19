@@ -1,3 +1,5 @@
+import math
+
 def calculate_simpson(function, a, b, number_of_subintervals):
     h = (b - a) / number_of_subintervals
     integral = function(a) + function(b)
@@ -39,10 +41,8 @@ def gauss_legendre(f, a, b, n):
         weights = [0.2369268850561891, 0.4786286704993665, 0.5688888888888889, 0.4786286704993665, 0.2369268850561891]
         nodes = [-0.9061798459386640, -0.5384693101056831, 0.0, 0.5384693101056831, 0.9061798459386640]
     else:
-        return None  # Unsupported number of nodes
+        return None
 
-    # Change of variable x = ((b-a)/2) * t + (b+a)/2
-    # Integral over [a, b] is (b-a)/2 times the integral over [-1, 1]
     integral = 0.0
     for i in range(n):
         x = 0.5 * (b - a) * nodes[i] + 0.5 * (b + a)
@@ -51,3 +51,21 @@ def gauss_legendre(f, a, b, n):
     integral *= 0.5 * (b - a)
     return integral
 
+def f1(x):
+    # Prosta funkcja wielomianowa: x^2 - 2x + 1
+    return x**2 - 2*x + 1
+def f2(x):
+    # Prosta funkcja trygonometryczna: sin(x)
+    return math.sin(x)
+def f3(x):
+    # Prosta funkcja wykładnicza: e^x
+    return math.exp(x)
+def f4(x):
+    # Bardziej skomplikowana funkcja wielomianowa: x^3 - 2x^2 + x - 5
+    return x**3 - 2*x**2 + x - 5
+def f5(x):
+    # Skomplikowana funkcja trygonometryczna: sin(x^2) + cos(x)
+    return math.sin(x**2) + math.cos(x)
+def f6(x):
+    # Skomplikowana funkcja wykładnicza: e^(sin(x)) + e^(-x)
+    return math.exp(math.sin(x)) + math.exp(-x)
