@@ -79,7 +79,7 @@ def approximate_function(func, degree, a, b, nodes):
     return approx_poly
 
 
-def calculate_approximation_error(func, approx_func, a, b, n): #RMSE
+def calculate_approximation_error(func, approx_func, a, b, n): #RMSE (L2)
     def error_function(x):
         return (func(x) - approx_func(x)) ** 2
 
