@@ -44,37 +44,38 @@ while True:
             nodes2 = 5
 
             print("\n***1 - newton***")
+            newtonOutput1, subintervals1 = mf.composite_simpson_with_precision(mf.f1, a1, b1, 1, tolerance1)
             print(newtonText.format(a1, b1, tolerance1, subintervals1, newtonOutput1))
             print("\n***2 - newton***")
+            newtonOutput2, subintervals2 = mf.composite_simpson_with_precision(mf.f2, a2, b2, 1, tolerance2)
             print(newtonText.format(a2, b2, tolerance2, subintervals2, newtonOutput2))
             print("\n***3 - newton***")
+            newtonOutput3, subintervals3 = mf.composite_simpson_with_precision(mf.f3, a1, b1, 1, tolerance1)
             print(newtonText.format(a1, b1, tolerance1, subintervals3, newtonOutput3))
             print("\n***4 - newton***")
+            newtonOutput4, subintervals4 = mf.composite_simpson_with_precision(mf.f4, a2, b2, 1, tolerance2)
             print(newtonText.format(a2, b2, tolerance2, subintervals4, newtonOutput4))
             print("\n***5 - newton***")
+            newtonOutput5, subintervals5 = mf.composite_simpson_with_precision(mf.f5, a1, b1, 1, tolerance1)
             print(newtonText.format(a1, b1, tolerance1, subintervals5, newtonOutput5))
             print("\n***6 - newton***")
+            newtonOutput6, subintervals6 = mf.composite_simpson_with_precision(mf.f6, a2, b2, 1, tolerance2)
             print(newtonText.format(a2, b2, tolerance2, subintervals6, newtonOutput6))
             print("\n***koniec - newton***\n\n")
             for i in range(2,6):
                 nodes1 = i
                 print("*************nodes {}".format(nodes1))
-                newtonOutput1,subintervals1 = mf.composite_simpson_with_precision(mf.f1, a1, b1, 1, tolerance1)
+
                 gaussOutput1, n = mf.gauss_legendre(mf.f1, a1, b1, nodes1)
 
-                newtonOutput2,subintervals2 = mf.composite_simpson_with_precision(mf.f2, a2, b2, 1, tolerance2)
                 gaussOutput2, n = mf.gauss_legendre(mf.f2, a2, b2, nodes1)
 
-                newtonOutput3, subintervals3 = mf.composite_simpson_with_precision(mf.f3, a1, b1, 1, tolerance1)
                 gaussOutput3, n = mf.gauss_legendre(mf.f3, a1, b1, nodes1)
 
-                newtonOutput4, subintervals4 = mf.composite_simpson_with_precision(mf.f4, a2, b2, 1, tolerance2)
                 gaussOutput4, n = mf.gauss_legendre(mf.f4, a2, b2, nodes1)
 
-                newtonOutput5, subintervals5 = mf.composite_simpson_with_precision(mf.f5, a1, b1, 1, tolerance1)
                 gaussOutput5, n = mf.gauss_legendre(mf.f5, a1, b1, nodes1)
 
-                newtonOutput6, subintervals6 = mf.composite_simpson_with_precision(mf.f6, a2, b2, 1, tolerance2)
                 gaussOutput6, n = mf.gauss_legendre(mf.f6, a2, b2, nodes1)
 
                 print("\n***1 - gauss***")
