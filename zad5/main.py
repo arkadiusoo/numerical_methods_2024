@@ -19,47 +19,78 @@ while True:
                 continue
             a = int(input("Podaj poczatek przedziału aproksymacji: "))
             b = int(input("Podaj koniec przedziału aproksymacji: "))
-            degree = int(input("Podaj żądany stopień wielomianu aproksymującego: "))
             nodes = int(input("Podaj liczbę węzłów potrzebną do całkowania: "))
+            wybor2 = input("Jezeli chcesz wpisac dokladnosc - napisz liczbe jako float,\njezeli stopien wielomianu aproksymacji - napisz liczbe jako int\n\twartosc: ")
+            if "." in wybor2:
+                accuracy = float(wybor2)
+                degree = 1
+                approx_func = mf.approximate_function(f, degree, a, b, nodes)
+                error = mf.calculate_approximation_error(f, approx_func, a, b, nodes)
+                while error > accuracy:
+                    degree += 1
+                    approx_func = mf.approximate_function(f, degree, a, b, nodes)
+                    error = mf.calculate_approximation_error(f, approx_func, a, b, nodes)
+                    if degree == 100:
+                        raise ValueError("Przesadziles!")
 
-            approx_func = mf.approximate_function(f,degree,a,b,nodes)
-            error = mf.calculate_approximation_error(f,approx_func,a,b,nodes)
-            mf.graph(f,approx_func,a,b,error,degree)
+                mf.graph(f, approx_func, a, b, error, degree)
+
+            else:
+                degree = int(wybor2)
+                approx_func = mf.approximate_function(f,degree,a,b,nodes)
+                error = mf.calculate_approximation_error(f,approx_func,a,b,nodes)
+                mf.graph(f,approx_func,a,b,error,degree)
 
         case "2":
+            norm = "L2"
             a1 = 0
             b1 = 3
 
             a2 = -3
             b2 = 5
 
-            nodes1 = 4
+            nodes = [3,6,9]
+            for nodes1 in nodes:
+                print("\n\t***Funkcja f4")
+                fig, axes = mf.plt.subplots(2, 2, figsize=(14, 10))
+                axes = axes.flatten()
 
-            print("\n\t***Funkcja f4")
-            for i in range(3):
-                approx_func = mf.approximate_function(mf.f4, i+1,a1,b1,nodes1)
-                error = mf.calculate_approximation_error(mf.f4,approx_func,a1,b1,nodes1)
-                print("Blad {}: {}".format(i+1,error))
-                mf.graph(mf.f4,approx_func,a1,b1,error,i+1)
+                for i in range(4):
+                    approx_func = mf.approximate_function(mf.f4, i+1,a1,b1,nodes1)
+                    error = mf.calculate_approximation_error(mf.f4,approx_func,a1,b1,nodes1, norm)
+                    print("Blad {}: {}".format(i+1,error))
+                    mf.graph(mf.f4,approx_func,a1,b1,error,i+1,axes[i], norm)
+                mf.plt.tight_layout()
+                mf.plt.savefig("./plots/func4_plot_with_{}_nodes.png".format(nodes1))
+                mf.plt.show()
 
-            wait_for_plots()
+                wait_for_plots()
 
-            print("\n\t***Funkcja f5")
-            for i in range(3):
-                approx_func = mf.approximate_function(mf.f5, i+1,a2,b2,nodes1)
-                error = mf.calculate_approximation_error(mf.f5,approx_func,a2,b2,nodes1)
-                print("Blad {}: {}".format(i+1,error))
-                mf.graph(mf.f5,approx_func,a2,b2,error,i+1)
+                print("\n\t***Funkcja f5")
+                fig, axes = mf.plt.subplots(2, 2, figsize=(14, 10))
+                axes = axes.flatten()
+                for i in range(4):
+                    approx_func = mf.approximate_function(mf.f5, i+1,a2,b2,nodes1)
+                    error = mf.calculate_approximation_error(mf.f5,approx_func,a2,b2,nodes1,norm)
+                    print("Blad {}: {}".format(i+1,error))
+                    mf.graph(mf.f5,approx_func,a2,b2,error,i+1,axes[i], norm)
+                mf.plt.tight_layout()
+                mf.plt.savefig("./plots/func5_plot_with_{}_nodes.png".format(nodes1))
+                mf.plt.show()
+                wait_for_plots()
 
-            wait_for_plots()
-            print("\n\t***Funkcja f6")
+                print("\n\t***Funkcja f6")
+                fig, axes = mf.plt.subplots(2, 2, figsize=(14, 10))
+                axes = axes.flatten()
 
-            for i in range(3):
-                approx_func = mf.approximate_function(mf.f6, i + 1, a2, b2, nodes1)
-                error = mf.calculate_approximation_error(mf.f6, approx_func, a2, b2, nodes1)
-                print("Blad {}: {}".format(i + 1, error))
-                mf.graph(mf.f6, approx_func, a2, b2, error, i + 1)
-
+                for i in range(4):
+                    approx_func = mf.approximate_function(mf.f6, i + 1, a2, b2, nodes1)
+                    error = mf.calculate_approximation_error(mf.f6, approx_func, a2, b2, nodes1, norm)
+                    print("Blad {}: {}".format(i + 1, error))
+                    mf.graph(mf.f6, approx_func, a2, b2, error, i + 1,axes[i], norm)
+                mf.plt.tight_layout()
+                mf.plt.savefig("./plots/func6_plot_with_{}_nodes.png".format(nodes1))
+                mf.plt.show()
         case "3":
             break
         case _:
