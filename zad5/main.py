@@ -42,15 +42,17 @@ while True:
                 mf.graph(f,approx_func,a,b,error,degree)
 
         case "2":
-            norm = "L2"
+
             a1 = 0
             b1 = 3
 
             a2 = -3
             b2 = 5
-
+            norms = ["L2", "Chebyshev", "L2_weighted"]
             nodes = [3,6,9]
-            for nodes1 in nodes:
+            for i in range(3):
+                nodes1 = nodes[i]
+                norm = norms[i]
                 print("\n\t***Funkcja f4")
                 fig, axes = mf.plt.subplots(2, 2, figsize=(14, 10))
                 axes = axes.flatten()
@@ -61,7 +63,7 @@ while True:
                     print("Blad {}: {}".format(i+1,error))
                     mf.graph(mf.f4,approx_func,a1,b1,error,i+1,axes[i], norm)
                 mf.plt.tight_layout()
-                mf.plt.savefig("./plots/func4_plot_with_{}_nodes.png".format(nodes1))
+                mf.plt.savefig("./plots/func4_plot_with_{}_nodes_with_norm_{}.png".format(nodes1,norm))
                 mf.plt.show()
 
                 wait_for_plots()
@@ -75,7 +77,7 @@ while True:
                     print("Blad {}: {}".format(i+1,error))
                     mf.graph(mf.f5,approx_func,a2,b2,error,i+1,axes[i], norm)
                 mf.plt.tight_layout()
-                mf.plt.savefig("./plots/func5_plot_with_{}_nodes.png".format(nodes1))
+                mf.plt.savefig("./plots/func5_plot_with_{}_nodes_with_norm_{}.png".format(nodes1,norm))
                 mf.plt.show()
                 wait_for_plots()
 
@@ -89,7 +91,7 @@ while True:
                     print("Blad {}: {}".format(i + 1, error))
                     mf.graph(mf.f6, approx_func, a2, b2, error, i + 1,axes[i], norm)
                 mf.plt.tight_layout()
-                mf.plt.savefig("./plots/func6_plot_with_{}_nodes.png".format(nodes1))
+                mf.plt.savefig("./plots/func6_plot_with_{}_nodes_with_norm_{}.png".format(nodes1,norm))
                 mf.plt.show()
         case "3":
             break

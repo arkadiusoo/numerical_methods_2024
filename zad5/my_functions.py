@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import math
 import sympy as sp
 
 
@@ -60,7 +59,7 @@ def approximate_function(func, degree, a, b, nodes):
         denominator = gauss_legendre(func_denominator, a, b, nodes)
 
         # Debug print statements
-        print(f"Degree {k}: Numerator = {numerator}, Denominator = {denominator}")
+        # print(f"Degree {k}: Numerator = {numerator}, Denominator = {denominator}")
 
         if denominator == 0:
             print(f"Warning: Denominator is zero for degree {k}. Skipping this term.")
@@ -85,7 +84,7 @@ def calculate_approximation_error(func, approx_func, a, b, n, norm='L2'):
             return (func(x) - approx_func(x)) ** 2
 
         error_integral = gauss_legendre(error_function, a, b, n)
-        return math.sqrt(error_integral)
+        return np.sqrt(error_integral)
 
     elif norm == 'Chebyshev':
         def error_function(x):
@@ -108,7 +107,7 @@ def calculate_approximation_error(func, approx_func, a, b, n, norm='L2'):
             return weight_function(x) * error_function(x)
 
         error_integral = gauss_legendre(weighted_error_function, a, b, n)
-        return math.sqrt(error_integral)
+        return np.sqrt(error_integral)
 
     else:
         raise ValueError("Unsupported norm type. Use 'L2', 'Chebyshev', or 'L2_weighted'.")
@@ -139,11 +138,11 @@ def f1(x):
 
 
 def f2(x):
-    return math.sin(x)
+    return np.sin(x)
 
 
 def f3(x):
-    return math.exp(x)
+    return np.exp(x)
 
 
 def f4(x):
@@ -151,11 +150,11 @@ def f4(x):
 
 
 def f5(x):
-    return math.sin(x ** 2) + math.cos(x)
+    return np.sin(x ** 2) + np.cos(x)
 
 
 def f6(x):
-    return math.exp(math.sin(x)) + math.exp(-x)
+    return np.exp(np.sin(x)) + np.exp(-x)
 
 
 def create_function_from_user_input():
