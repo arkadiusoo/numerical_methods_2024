@@ -66,12 +66,39 @@ def approximate_function(func, degree, a, b, nodes):
     return approx_poly
 
 
-def calculate_approximation_error(func, approx_func, a, b, n): #RMSE (L2)
-    def error_function(x):
-        return (func(x) - approx_func(x)) ** 2
+def calculate_approximation_error(func, approx_func, a, b, n, norm='L2'):
+    if norm == 'L2':
+        def error_function(x):
+            return (func(x) - approx_func(x)) ** 2
 
-    error_integral = gauss_legendre(error_function, a, b, n)
-    return math.sqrt(error_integral)
+        error_integral = gauss_legendre(error_function, a, b, n)
+        return math.sqrt(error_integral)
+
+    elif norm == 'Chebyshev':
+        def error_function(x):
+            return np.abs(func(x) - approx_func(x))
+
+        nodes, _ = np.polynomial.legendre.leggauss(n)
+        nodes = 0.5 * (b - a) * nodes + 0.5 * (b + a)
+        max_error = np.max(error_function(nodes))
+        return max_error
+
+    elif norm == 'L2_weighted':
+        def error_function(x):
+            return (func(x) - approx_func(x)) ** 2
+
+        def weight_function(x):
+            # przykładowa funkcja wagowa
+            return 1 / (1 + x**2)
+
+        def weighted_error_function(x):
+            return weight_function(x) * error_function(x)
+
+        error_integral = gauss_legendre(weighted_error_function, a, b, n)
+        return math.sqrt(error_integral)
+
+    else:
+        raise ValueError("Unsupported norm type. Use 'L2', 'Chebyshev', or 'L2_weighted'.")
 
 
 def graph(func, approx_func, a, b, error,degree):
